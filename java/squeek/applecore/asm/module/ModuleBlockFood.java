@@ -93,10 +93,9 @@ public class ModuleBlockFood implements IClassTransformerModule
 		replacement.add(new VarInsnNode(ALOAD, 1));
 		replacement.add(new VarInsnNode(ALOAD, 5));
 		replacement.add(new MethodInsnNode(INVOKESTATIC, ASMConstants.HooksInternalClass, "onBlockFoodEaten", "(Lnet/minecraft/block/Block;Lnet/minecraft/world/World;Lnet/minecraft/entity/player/EntityPlayer;)V", false));
-		/*
+
 		if (ASMHelper.findAndReplace(method.instructions, needle, replacement) == null)
 			throw new RuntimeException("Could not replace FoodStats.addStats call in " + classNode.name + "." + method.name + "\n" + ASMHelper.getMethodAsString(method));
-		*/
 	}
 
 	private void addAlwaysEdibleCheck(ClassNode classNode, MethodNode method)

@@ -9,6 +9,7 @@ dependencies {
     }
 
     // Do not set to compile instead of compileOnly! It will not run in dev!
+    // NOTE! This is for a mixin and is using Curse's version - not GTNH's
     compileOnly("curse.maven:pams-harvestcraft-221857:2270206") {
         transitive = false
     }

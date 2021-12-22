@@ -65,7 +65,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
             }
             else {
                 LOG.error("Could not find " + mod.modName + "! Going to crash now");
-                FMLCommonHandler.instance().exitJava(-1, false);
+                FMLCommonHandler.instance().exitJava(-99, false);
             }
         }
 

@@ -1,5 +1,6 @@
 package squeek.applecore.mixinplugin;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -63,7 +64,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 LOG.info("Found " + mod.modName + "! Integrating now...");
             }
             else {
-                LOG.info("Could not find " + mod.modName + "! Skipping integration....");
+                LOG.error("Could not find " + mod.modName + "! Going to crash now");
+                FMLCommonHandler.instance().exitJava(-1, false);
             }
         }
 
@@ -85,7 +87,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 return false;
             }
 
-            LOG.info("Attempting to add " + jar + " to the URL Class Path");
+            LOG.error("Attempting to add " + jar + " to the URL Class Path");
             if(!jar.exists()) {
                 throw new FileNotFoundException(jar.toString());
             }

@@ -83,11 +83,11 @@ public class MixinPlugin implements IMixinConfigPlugin {
         try {
             File jar = findJarOf(mod);
             if(jar == null) {
-                LOG.info("Jar not found for " + mod);
+                LOG.warn("Jar not found for " + mod);
                 return false;
             }
 
-            LOG.error("Attempting to add " + jar + " to the URL Class Path");
+            LOG.info("Attempting to add " + jar + " to the URL Class Path");
             if(!jar.exists()) {
                 throw new FileNotFoundException(jar.toString());
             }

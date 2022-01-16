@@ -41,8 +41,6 @@ public class AppleCore
 		AppleCoreRegistryImpl.values();
 
 		ModConfig.init(event.getSuggestedConfigurationFile());
-
-		FMLInterModComms.sendRuntimeMessage(ModInfo.MODID, "VersionChecker", "addVersionCheck", "http://www.ryanliptak.com/minecraft/versionchecker/squeek502/AppleCore");
 	}
 
 	@EventHandler

@@ -14,7 +14,7 @@ public enum TargetedMod {
 
     // Replace with your injected mods here, but always keep VANILLA:
     VANILLA("Minecraft", "unused", true),
-    CODECHICKEN_LIB("CodeChickenLib", "CodeChickenLib-1.7.10-", false),
+    CODECHICKEN_LIB("CodeChickenLib", "CodeChickenLib-1.7.10-", true),
     HARVESTCRAFT("Pam's Harvestcraft", "Pam's_Harvestcraft-1.7.10", false),
     NATURA("Natura", "natura-1.7.10", false);
 

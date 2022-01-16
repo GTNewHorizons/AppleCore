@@ -27,7 +27,6 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
     @Unique
     private EntityPlayer entityPlayer;
 
-    @Unique
     private int starveTimer;
 
     @Shadow

@@ -5,10 +5,7 @@ dependencies {
     compileOnly("com.github.GTNewHorizons:Natura:2.4.9:dev") {
         transitive = false
     }
-
-    // Do not set to compile instead of compileOnly! It will not run in dev!
-    // NOTE! This is for a mixin and is using Curse's version - not GTNH's
-    compileOnly("curse.maven:pams-harvestcraft-221857:2270206") {
+    compileOnly("com.github.GTNewHorizons:harvestcraft:1.0.10-GTNH:dev") {
         transitive = false
     }
 }

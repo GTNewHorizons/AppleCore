@@ -1,18 +1,9 @@
 package squeek.applecore.mixinplugin;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.launchwrapper.Launch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.lib.tree.ClassNode;
-import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
-import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
-import squeek.applecore.ModInfo;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +11,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.nio.file.Files.walk;
-import static squeek.applecore.mixinplugin.TargetedMod.VANILLA;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.lib.tree.ClassNode;
+import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
+import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.launchwrapper.Launch;
+import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
+import squeek.applecore.ModConfig;
+import squeek.applecore.ModInfo;
 
 public class MixinPlugin implements IMixinConfigPlugin {
 
@@ -30,7 +31,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-
+        ModConfig.init(new File(Launch.minecraftHome, "config/" + ModInfo.MODID + ".cfg"));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         final boolean isDevelopmentEnvironment = (boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
 
         List<TargetedMod> loadedMods = Arrays.stream(TargetedMod.values())
-                .filter(mod -> mod == VANILLA
+                .filter(mod -> mod == TargetedMod.VANILLA
                         || (mod.loadInDevelopment && isDevelopmentEnvironment)
                         || loadJarOf(mod))
                 .collect(Collectors.toList());
@@ -62,11 +63,11 @@ public class MixinPlugin implements IMixinConfigPlugin {
         for (TargetedMod mod : TargetedMod.values()) {
             if(loadedMods.contains(mod)) {
                 LOG.info("Found " + mod.modName + "! Integrating now...");
-            }
-            else {
-                LOG.error("Could not find " + mod.modName + "! Ought to crash now");
-                if (!isDevelopmentEnvironment)
-                    FMLCommonHandler.instance().exitJava(-99, false);
+            } else if (ArrayUtils.contains(ModConfig.REQUIRED_MODS, mod.modName) && !isDevelopmentEnvironment){
+                LOG.error("CRITICAL ERROR: Could not find required jar {}.  If this mod is not required please remove it from the 'requiredMods' section of the config.", mod.modName);
+                FMLCommonHandler.instance().exitJava(-1, true);
+            } else {
+                LOG.info("Could not find " + mod.modName + "! Skipping mixins....");
             }
         }
 
@@ -103,7 +104,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     public static File findJarOf(final TargetedMod mod) {
         try {
-            return walk(MODS_DIRECTORY_PATH)
+            return Files.walk(MODS_DIRECTORY_PATH)
                     .filter(mod::isMatchingJar)
                     .map(Path::toFile)
                     .findFirst()

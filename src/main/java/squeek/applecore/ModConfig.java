@@ -1,10 +1,11 @@
 package squeek.applecore;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import squeek.applecore.mixinplugin.TargetedMod;
 
 public class ModConfig
 {
@@ -63,6 +64,18 @@ public class ModConfig
 	private static final String SHOW_FOOD_DEBUG_INFO_NAME = "show.food.stats.in.debug.overlay";
 	private static final String SHOW_FOOD_DEBUG_INFO_COMMENT =
 			"If true, adds a line that shows your hunger, saturation, and exhaustion level in the F3 debug overlay";
+	
+	/*
+	 * GENERAL
+	 */
+	public static final String CATEGORY_GENERAL = Configuration.CATEGORY_GENERAL;
+    public static final String CATEGORY_GENERAL_COMMENT = "These config settings are for both server and client-side";
+	
+	public static String[] REQUIRED_MODS;
+	public static final String[] REQUIRED_MODS_DEFAULTS = Arrays.stream(TargetedMod.values()).map(mod -> mod.modName).toArray(String[]::new);
+	public static final String REQUIRED_MODS_NAME = "required.mods";
+	public static final String REQUIRED_MODS_COMMENT = "Subset of TargetMods that are required";
+	public static final Pattern REQUIRED_MODS_VALIDATION_PATTERN = Pattern.compile(String.join("|", Arrays.stream(TargetedMod.values()).map(mod -> "^" + mod.modName + "$").toArray(String[]::new)));
 
 	public static void init(File file)
 	{
@@ -70,15 +83,6 @@ public class ModConfig
 
 		load();
 		sync();
-
-		FMLCommonHandler.instance().bus().register(new ModConfig());
-	}
-
-	@SubscribeEvent
-	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
-	{
-		if (event.modID.equals(ModInfo.MODID))
-			ModConfig.sync();
 	}
 
 	public static void sync()
@@ -105,6 +109,13 @@ public class ModConfig
 		SHOW_FOOD_VALUES_OVERLAY = config.get(CATEGORY_CLIENT, SHOW_FOOD_VALUES_OVERLAY_NAME, true, SHOW_FOOD_VALUES_OVERLAY_COMMENT).getBoolean(true);
 		SHOW_FOOD_EXHAUSTION_UNDERLAY = config.get(CATEGORY_CLIENT, SHOW_FOOD_EXHAUSTION_UNDERLAY_NAME, foodExhaustionOverlayValue, SHOW_FOOD_EXHAUSTION_UNDERLAY_COMMENT).getBoolean(foodExhaustionOverlayValue);
 		SHOW_FOOD_DEBUG_INFO = config.get(CATEGORY_CLIENT, SHOW_FOOD_DEBUG_INFO_NAME, true, SHOW_FOOD_DEBUG_INFO_COMMENT).getBoolean(true);
+		
+		/*
+		 * GENERAL
+		 */
+        config.getCategory(CATEGORY_GENERAL).setComment(CATEGORY_GENERAL_COMMENT);
+        
+		REQUIRED_MODS = config.get(CATEGORY_GENERAL, REQUIRED_MODS_NAME, REQUIRED_MODS_DEFAULTS, REQUIRED_MODS_COMMENT, false, TargetedMod.values().length, REQUIRED_MODS_VALIDATION_PATTERN).setRequiresMcRestart(true).getStringList();
 
 		if (config.hasChanged())
 			save();

@@ -5,7 +5,7 @@ dependencies {
     compileOnly("com.github.GTNewHorizons:Natura:2.4.9:dev") {
         transitive = false
     }
-    compileOnly("com.github.GTNewHorizons:harvestcraft:1.0.10-GTNH:dev") {
+    compileOnly("curse.maven:pams-harvestcraft-221857:2270206") {
         transitive = false
     }
 }

@@ -59,10 +59,6 @@ public class TooltipOverlayHandler
 				getStackMouseOver = Class.forName("codechicken.nei.ItemPanel").getDeclaredMethod("getStackMouseOver", int.class, int.class);
 			}
 		}
-		catch (RuntimeException e)
-		{
-			throw e;
-		}
 		catch (Exception e)
 		{
 			AppleCore.Log.error("Unable to integrate the food values tooltip overlay with NEI: ");

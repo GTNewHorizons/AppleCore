@@ -1,20 +1,23 @@
 package squeek.applecore.mixins.minecraft;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
+import java.util.Iterator;
+import java.util.List;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import squeek.applecore.client.TooltipOverlayHandler;
 
-import java.util.List;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
+import squeek.applecore.client.TooltipOverlayHandler;
 
 @Mixin(GuiScreen.class)
 public class GuiScreenMixin {
 
+    @SuppressWarnings("rawtypes")
     @Inject(method = "drawHoveringText",
             at = @At(
                     value = "INVOKE",
@@ -24,18 +27,11 @@ public class GuiScreenMixin {
                     from = @At(
                             value = "INVOKE",
                             target = "Lnet/minecraft/client/gui/GuiScreen;drawGradientRect(IIIIII)V",
-                            ordinal = 0)), locals = LocalCapture.PRINT)
-    private void onDrawHoveringText(List stringLines, int pixelX, int pixelY, FontRenderer fontRenderer, CallbackInfo callbackInfo) {
-        // TODO
-        /*
-        "j2" -> x
-        "k2" -> y
-        "k", -> w
-        "i1" -> h
-         */
-        TooltipOverlayHandler.toolTipX = 0;
-        TooltipOverlayHandler.toolTipY = 0;
-        TooltipOverlayHandler.toolTipW = 0;
-        TooltipOverlayHandler.toolTipH = 0;
+                            ordinal = 0)), locals = LocalCapture.CAPTURE_FAILHARD)
+    private void onDrawHoveringText(List textLines, int x, int y, FontRenderer font, CallbackInfo ci, int k, Iterator iterator, int j2, int k2, int i1, int j1, int k1, int l1, int i2) {
+        TooltipOverlayHandler.toolTipX = j2;
+        TooltipOverlayHandler.toolTipY = k2;
+        TooltipOverlayHandler.toolTipW = k;
+        TooltipOverlayHandler.toolTipH = i1;
     }
 }

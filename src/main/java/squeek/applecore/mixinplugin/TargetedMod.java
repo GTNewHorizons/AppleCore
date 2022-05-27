@@ -15,7 +15,7 @@ public enum TargetedMod {
     // Replace with your injected mods here, but always keep VANILLA:
     VANILLA("Minecraft", "unused", true),
     CODECHICKEN_LIB("CodeChickenLib", "CodeChickenLib-1.7.10-", true),
-    HARVESTCRAFT("Pam's Harvestcraft", "Pam's HarvestCraft", false), //It would be nice to have the "1.7.10" in the name too but the original name has a space before it but our workflow puts a dash there...
+    HARVESTCRAFT("Pam's Harvestcraft", "harvestcraft-1.7.10-", false), //It would be nice to have the "1.7.10" in the name too but the original name has a space before it but our workflow puts a dash there...
     NATURA("Natura", "natura-1.7.10", false);
 
     public final String modName;

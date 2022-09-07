@@ -38,6 +38,7 @@ public class TooltipOverlayHandler {
 	//private static final Field guiTop = ReflectionHelper.findField(GuiContainer.class, ObfuscationReflectionHelper.remapFieldNames(GuiContainer.class.getName(), "guiTop", "field_147009_r", "r"));
 	public static final Field theSlot = ReflectionHelper.findField(GuiContainer.class, ObfuscationReflectionHelper.remapFieldNames(GuiContainer.class.getName(), "theSlot", "field_147006_u", "u"));
 	private static Method getStackMouseOver = null;
+	private static Method isNEIHidden = null;
 	private static Field itemPanel = null;
 	private static boolean neiLoaded = false;
 	private static Class<?> foodJournalGui = null;
@@ -51,6 +52,7 @@ public class TooltipOverlayHandler {
 				Class<?> LayoutManager = Class.forName("codechicken.nei.LayoutManager");
 				itemPanel = LayoutManager.getDeclaredField("itemPanel");
 				getStackMouseOver = Class.forName("codechicken.nei.ItemPanel").getDeclaredMethod("getStackMouseOver", int.class, int.class);
+				isNEIHidden = Class.forName("codechicken.nei.NEIClientConfig").getDeclaredMethod("isHidden");
 			}
 		} catch (Exception e) {
 			AppleCore.Log.error("Unable to integrate the food values tooltip overlay with NEI: ");
@@ -103,7 +105,7 @@ public class TooltipOverlayHandler {
 					}
 
 					// try NEI
-					if (hoveredStack == null && getStackMouseOver != null) {
+					if (hoveredStack == null && isNEIHidden != null && !(boolean) isNEIHidden.invoke(null) && getStackMouseOver != null) {
 						hoveredStack = (ItemStack) (getStackMouseOver.invoke(itemPanel.get(null), mouseX, mouseY));
 					}
 

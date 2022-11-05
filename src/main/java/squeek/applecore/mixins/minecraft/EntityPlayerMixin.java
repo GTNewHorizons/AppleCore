@@ -43,19 +43,25 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IApp
         ((IAppleCorePlayerStats) foodStats).setPlayer((EntityPlayer) (Object) this);
     }
 
-    @Inject(method = "setItemInUse", at = @At(value = "FIELD", target = "net/minecraft/entity/player/EntityPlayer.itemInUseCount : I", shift = At.Shift.AFTER))
+    @Inject(
+            method = "setItemInUse",
+            at =
+                    @At(
+                            value = "FIELD",
+                            target = "net/minecraft/entity/player/EntityPlayer.itemInUseCount : I",
+                            shift = At.Shift.AFTER))
     private void onSetItemInUse(ItemStack itemStack, int maxItemUseDuration, CallbackInfo callbackInfo) {
         this.itemInUseMaxDuration = maxItemUseDuration;
     }
 
-    @Redirect(method = "getItemInUseDuration", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getMaxItemUseDuration()I"))
+    @Redirect(
+            method = "getItemInUseDuration",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getMaxItemUseDuration()I"))
     @SideOnly(Side.CLIENT)
     private int redirect(ItemStack instance) {
         EnumAction useAction = getItemInUse().getItemUseAction();
-        if (useAction == EnumAction.eat || useAction == EnumAction.drink)
-            return itemInUseMaxDuration;
-        else
-            return getItemInUse().getMaxItemUseDuration();
+        if (useAction == EnumAction.eat || useAction == EnumAction.drink) return itemInUseMaxDuration;
+        else return getItemInUse().getMaxItemUseDuration();
     }
 
     @Override
@@ -63,12 +69,14 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IApp
         return itemInUseMaxDuration;
     }
 
-    @Redirect(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;heal (F)V"))
+    @Redirect(
+            method = "onLivingUpdate",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;heal (F)V"))
     private void redirectHeal(EntityPlayer thiz, float value) {
-        HealthRegenEvent.PeacefulRegen peacefulRegenEvent = new HealthRegenEvent.PeacefulRegen((EntityPlayer) (Object) this);
+        HealthRegenEvent.PeacefulRegen peacefulRegenEvent =
+                new HealthRegenEvent.PeacefulRegen((EntityPlayer) (Object) this);
         MinecraftForge.EVENT_BUS.post(peacefulRegenEvent);
-        if (!peacefulRegenEvent.isCanceled())
-        {
+        if (!peacefulRegenEvent.isCanceled()) {
             heal(peacefulRegenEvent.deltaHealth);
         }
     }

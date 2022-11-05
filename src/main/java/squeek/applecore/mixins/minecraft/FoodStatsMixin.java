@@ -58,9 +58,10 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
 
     @Inject(method = "addStats", at = @At("HEAD"), cancellable = true)
     private void onAddStats(int hunger, float saturationModifier, CallbackInfo callbackInfo) {
-        FoodEvent.FoodStatsAddition event = new FoodEvent.FoodStatsAddition(entityPlayer, new FoodValues(hunger, saturationModifier));
+        FoodEvent.FoodStatsAddition event =
+                new FoodEvent.FoodStatsAddition(entityPlayer, new FoodValues(hunger, saturationModifier));
         MinecraftForge.EVENT_BUS.post(event);
-        if(event.isCancelable() && event.isCanceled()) {
+        if (event.isCancelable() && event.isCanceled()) {
             callbackInfo.cancel();
         }
     }
@@ -70,21 +71,19 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
      * @reason Customize the way food stats are applied when eaten and launch {@link FoodEvent.FoodEaten}
      */
     @Overwrite
-    public void func_151686_a(ItemFood itemFood, ItemStack itemStack)
-    {
+    public void func_151686_a(ItemFood itemFood, ItemStack itemStack) {
         FoodValues modifiedFoodValues = AppleCoreAPI.accessor.getFoodValuesForPlayer(itemStack, entityPlayer);
         int prevFoodLevel = foodLevel;
         float prevSaturationLevel = foodSaturationLevel;
 
         addStats(modifiedFoodValues.hunger, modifiedFoodValues.saturationModifier);
 
-        MinecraftForge.EVENT_BUS.post(
-                new FoodEvent.FoodEaten(
-                        entityPlayer,
-                        itemStack,
-                        modifiedFoodValues,
-                        foodLevel - prevFoodLevel,
-                        foodSaturationLevel - prevSaturationLevel));
+        MinecraftForge.EVENT_BUS.post(new FoodEvent.FoodEaten(
+                entityPlayer,
+                itemStack,
+                modifiedFoodValues,
+                foodLevel - prevFoodLevel,
+                foodSaturationLevel - prevSaturationLevel));
     }
 
     /**
@@ -92,22 +91,21 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
      * @reason Overwrite how exhaustion, starvation, and health regeneration work and fire events for each for other mods to act upon.
      */
     @Overwrite
-    public void onUpdate(EntityPlayer player)
-    {
+    public void onUpdate(EntityPlayer player) {
         this.prevFoodLevel = foodLevel;
 
         ExhaustionEvent.AllowExhaustion allowExhaustionEvent = new ExhaustionEvent.AllowExhaustion(player);
         MinecraftForge.EVENT_BUS.post(new ExhaustionEvent.AllowExhaustion(player));
         Event.Result allowExhaustionResult = allowExhaustionEvent.getResult();
         float maxExhaustion = AppleCoreAPI.accessor.getMaxExhaustion(player);
-        if (allowExhaustionResult == Event.Result.ALLOW || (allowExhaustionResult == Event.Result.DEFAULT && foodExhaustionLevel >= maxExhaustion))
-        {
-            ExhaustionEvent.Exhausted exhaustedEvent = new ExhaustionEvent.Exhausted(player, maxExhaustion, foodExhaustionLevel);
+        if (allowExhaustionResult == Event.Result.ALLOW
+                || (allowExhaustionResult == Event.Result.DEFAULT && foodExhaustionLevel >= maxExhaustion)) {
+            ExhaustionEvent.Exhausted exhaustedEvent =
+                    new ExhaustionEvent.Exhausted(player, maxExhaustion, foodExhaustionLevel);
             MinecraftForge.EVENT_BUS.post(exhaustedEvent);
 
             this.foodExhaustionLevel += exhaustedEvent.deltaExhaustion;
-            if (!exhaustedEvent.isCanceled())
-            {
+            if (!exhaustedEvent.isCanceled()) {
                 foodSaturationLevel = Math.max(foodSaturationLevel + exhaustedEvent.deltaSaturation, 0.0F);
                 foodLevel = Math.max(foodLevel + exhaustedEvent.deltaHunger, 0);
             }
@@ -116,47 +114,40 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
         HealthRegenEvent.AllowRegen allowRegenEvent = new HealthRegenEvent.AllowRegen(player);
         MinecraftForge.EVENT_BUS.post(allowRegenEvent);
         if (allowRegenEvent.getResult() == Event.Result.ALLOW
-                || (allowRegenEvent.getResult() == Event.Result.DEFAULT && player.worldObj.getGameRules().getGameRuleBooleanValue("naturalRegeneration")
-                    && this.foodLevel >= 18 && player.shouldHeal()))
-        {
+                || (allowRegenEvent.getResult() == Event.Result.DEFAULT
+                        && player.worldObj.getGameRules().getGameRuleBooleanValue("naturalRegeneration")
+                        && this.foodLevel >= 18
+                        && player.shouldHeal())) {
             ++this.foodTimer;
 
-            if (this.foodTimer >= AppleCoreAPI.accessor.getHealthRegenTickPeriod(player))
-            {
+            if (this.foodTimer >= AppleCoreAPI.accessor.getHealthRegenTickPeriod(player)) {
                 HealthRegenEvent.Regen regenEvent = new HealthRegenEvent.Regen(player);
                 MinecraftForge.EVENT_BUS.post(regenEvent);
-                if (!regenEvent.isCanceled())
-                {
+                if (!regenEvent.isCanceled()) {
                     player.heal(regenEvent.deltaHealth);
                     addExhaustion(regenEvent.deltaExhaustion);
                 }
                 foodTimer = 0;
             }
-        }
-        else
-        {
+        } else {
             foodTimer = 0;
         }
 
         StarvationEvent.AllowStarvation allowStarvationEvent = new StarvationEvent.AllowStarvation(player);
         MinecraftForge.EVENT_BUS.post(allowStarvationEvent);
-        if (allowStarvationEvent.getResult() == Event.Result.ALLOW || (allowStarvationEvent.getResult() == Event.Result.DEFAULT && foodLevel <= 0))
-        {
+        if (allowStarvationEvent.getResult() == Event.Result.ALLOW
+                || (allowStarvationEvent.getResult() == Event.Result.DEFAULT && foodLevel <= 0)) {
             ++starveTimer;
 
-            if (starveTimer >= AppleCoreAPI.accessor.getStarveDamageTickPeriod(player))
-            {
+            if (starveTimer >= AppleCoreAPI.accessor.getStarveDamageTickPeriod(player)) {
                 StarvationEvent.Starve starveEvent = new StarvationEvent.Starve(player);
                 MinecraftForge.EVENT_BUS.post(starveEvent);
-                if (!starveEvent.isCanceled())
-                {
+                if (!starveEvent.isCanceled()) {
                     player.attackEntityFrom(DamageSource.starve, starveEvent.starveDamage);
                 }
                 starveTimer = 0;
             }
-        }
-        else
-        {
+        } else {
             starveTimer = 0;
         }
     }

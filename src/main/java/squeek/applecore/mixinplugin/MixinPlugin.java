@@ -1,5 +1,6 @@
 package squeek.applecore.mixinplugin;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,16 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+import net.minecraft.launchwrapper.Launch;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.spongepowered.libraries.org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-
-import cpw.mods.fml.common.FMLCommonHandler;
-import net.minecraft.launchwrapper.Launch;
+import org.spongepowered.libraries.org.objectweb.asm.tree.ClassNode;
 import ru.timeconqueror.spongemixins.MinecraftURLClassPath;
 import squeek.applecore.ModConfig;
 import squeek.applecore.ModInfo;
@@ -45,9 +43,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
-    }
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
     // This method return a List<String> of mixins. Every mixins in this list will be loaded.
     @Override
@@ -61,10 +57,12 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 .collect(Collectors.toList());
 
         for (TargetedMod mod : TargetedMod.values()) {
-            if(loadedMods.contains(mod)) {
+            if (loadedMods.contains(mod)) {
                 LOG.info("Found " + mod.modName + "! Integrating now...");
-            } else if (ArrayUtils.contains(ModConfig.REQUIRED_MODS, mod.modName) && !isDevelopmentEnvironment){
-                LOG.error("CRITICAL ERROR: Could not find required jar {}.  If this mod is not required please remove it from the 'requiredMods' section of the config.", mod.modName);
+            } else if (ArrayUtils.contains(ModConfig.REQUIRED_MODS, mod.modName) && !isDevelopmentEnvironment) {
+                LOG.error(
+                        "CRITICAL ERROR: Could not find required jar {}.  If this mod is not required please remove it from the 'requiredMods' section of the config.",
+                        mod.modName);
                 FMLCommonHandler.instance().exitJava(-1, true);
             } else {
                 LOG.info("Could not find " + mod.modName + "! Skipping mixins....");
@@ -84,19 +82,18 @@ public class MixinPlugin implements IMixinConfigPlugin {
     private boolean loadJarOf(final TargetedMod mod) {
         try {
             File jar = findJarOf(mod);
-            if(jar == null) {
+            if (jar == null) {
                 LOG.warn("Jar not found for " + mod);
                 return false;
             }
 
             LOG.info("Attempting to add " + jar + " to the URL Class Path");
-            if(!jar.exists()) {
+            if (!jar.exists()) {
                 throw new FileNotFoundException(jar.toString());
             }
             MinecraftURLClassPath.addJar(jar);
             return true;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -109,20 +106,15 @@ public class MixinPlugin implements IMixinConfigPlugin {
                     .map(Path::toFile)
                     .findFirst()
                     .orElse(null);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     @Override
-    public void preApply(String s, ClassNode classNode, String s1, IMixinInfo iMixinInfo) {
-
-    }
+    public void preApply(String s, ClassNode classNode, String s1, IMixinInfo iMixinInfo) {}
 
     @Override
-    public void postApply(String s, ClassNode classNode, String s1, IMixinInfo iMixinInfo) {
-
-    }
+    public void postApply(String s, ClassNode classNode, String s1, IMixinInfo iMixinInfo) {}
 }

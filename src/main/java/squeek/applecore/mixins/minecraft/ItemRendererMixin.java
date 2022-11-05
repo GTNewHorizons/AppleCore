@@ -16,15 +16,16 @@ public class ItemRendererMixin {
     @Shadow
     private Minecraft mc;
 
-    @Redirect(method = "renderItemInFirstPerson",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/item/ItemStack;getMaxItemUseDuration()I",
-                    ordinal = 0),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/gui/MapItemRenderer;func_148250_a(Lnet/minecraft/world/storage/MapData;Z)V")))
+    @Redirect(
+            method = "renderItemInFirstPerson",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getMaxItemUseDuration()I", ordinal = 0),
+            slice =
+                    @Slice(
+                            from =
+                                    @At(
+                                            value = "INVOKE",
+                                            target =
+                                                    "Lnet/minecraft/client/gui/MapItemRenderer;func_148250_a(Lnet/minecraft/world/storage/MapData;Z)V")))
     private int onRenderItemInFirstPerson(ItemStack instance) {
         return ((IAppleCoreEatingEntity) mc.thePlayer).getItemInUseMaxDuration();
     }

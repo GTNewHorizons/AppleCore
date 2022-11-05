@@ -5,6 +5,7 @@ import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import squeek.applecore.api.AppleCoreAPI;
 
 import java.util.Random;
@@ -16,7 +17,11 @@ public abstract class BlockCocoaMixin extends BlockDirectional {
         super(null);
     }
 
-    // @Override
+    /**
+     * @author squeek
+     * @reason Check if cocoa can grow and announce that it has done so.
+     */
+    @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         Event.Result allowGrowthResult = AppleCoreAPI.dispatcher.validatePlantGrowth(this, world, blockX, blockY, blockZ, random);
 

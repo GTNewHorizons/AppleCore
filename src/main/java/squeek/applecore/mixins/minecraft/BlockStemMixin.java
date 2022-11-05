@@ -46,7 +46,7 @@ public class BlockStemMixin extends BlockBush {
         return 0;  // false
     }
 
-    @Inject(method = "updateTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockMetadata (III)I"))
+    @Inject(method = "updateTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"))
     private void onGetBlockMetadata(World world, int blockX, int blockY, int blockZ, Random random, CallbackInfo callbackInfo) {
         previousMetadata = world.getBlockMetadata(blockX, blockY, blockZ);
     }

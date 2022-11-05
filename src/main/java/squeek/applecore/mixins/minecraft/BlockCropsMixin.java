@@ -5,6 +5,7 @@ import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import squeek.applecore.api.AppleCoreAPI;
 
@@ -18,7 +19,11 @@ public class BlockCropsMixin extends BlockBush {
         throw new IllegalStateException("Mixin was unable to shadow func_149864_n()!");
     }
 
-    // @Override
+    /**
+     * @author squeek
+     * @reason Check if crops can grow and announce that they have done so.
+     */
+    @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         super.updateTick(world, blockX, blockY, blockZ, random);
 

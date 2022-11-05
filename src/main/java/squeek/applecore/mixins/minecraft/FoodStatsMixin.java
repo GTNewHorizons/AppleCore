@@ -8,6 +8,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -64,7 +65,11 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
         }
     }
 
-    // @Override
+    /**
+     * @author squeek
+     * @reason Customize the way food stats are applied when eaten and launch {@link FoodEvent.FoodEaten}
+     */
+    @Overwrite
     public void func_151686_a(ItemFood itemFood, ItemStack itemStack)
     {
         FoodValues modifiedFoodValues = AppleCoreAPI.accessor.getFoodValuesForPlayer(itemStack, entityPlayer);
@@ -82,7 +87,11 @@ public abstract class FoodStatsMixin implements IAppleCorePlayerStats {
                         foodSaturationLevel - prevSaturationLevel));
     }
 
-    // @Override
+    /**
+     * @author squeek
+     * @reason Overwrite how exhaustion, starvation, and health regeneration work and fire events for each for other mods to act upon.
+     */
+    @Overwrite
     public void onUpdate(EntityPlayer player)
     {
         this.prevFoodLevel = foodLevel;

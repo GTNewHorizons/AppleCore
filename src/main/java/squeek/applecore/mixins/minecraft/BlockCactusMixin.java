@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import squeek.applecore.api.AppleCoreAPI;
 
@@ -20,7 +21,11 @@ public abstract class BlockCactusMixin extends Block {
     @Shadow
     public abstract void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_);
 
-    // @Override
+    /**
+     * @author squeek
+     * @reason Check if cactus can grow and announce that it has done so
+     */
+    @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         if (world.isAirBlock(blockX, blockY + 1, blockZ)) {
             int l;

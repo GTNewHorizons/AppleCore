@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.codechickenlib;
+package squeek.applecore.mixins.early.codechickenlib;
 
 import codechicken.lib.gui.GuiDraw;
 import org.spongepowered.asm.mixin.Mixin;

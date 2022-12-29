@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.harvestcraft;
+package squeek.applecore.mixins.late.harvestcraft;
 
 import com.pam.harvestcraft.BlockPamSapling;
 import cpw.mods.fml.common.eventhandler.Event;

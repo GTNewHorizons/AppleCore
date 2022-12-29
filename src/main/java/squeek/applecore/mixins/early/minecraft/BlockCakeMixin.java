@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.minecraft;
+package squeek.applecore.mixins.early.minecraft;
 
 import net.minecraft.block.BlockCake;
 import net.minecraft.entity.player.EntityPlayer;

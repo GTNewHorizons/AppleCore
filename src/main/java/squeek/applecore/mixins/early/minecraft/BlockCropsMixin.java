@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.minecraft;
+package squeek.applecore.mixins.early.minecraft;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import java.util.Random;

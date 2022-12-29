@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.minecraft;
+package squeek.applecore.mixins.early.minecraft;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;

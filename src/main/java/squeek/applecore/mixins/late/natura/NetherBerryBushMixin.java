@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.natura;
+package squeek.applecore.mixins.late.natura;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import java.util.Random;

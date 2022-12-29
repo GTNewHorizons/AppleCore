@@ -1,4 +1,4 @@
-package squeek.applecore.mixins.minecraft;
+package squeek.applecore.mixins.early.minecraft;
 
 import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.relauncher.Side;

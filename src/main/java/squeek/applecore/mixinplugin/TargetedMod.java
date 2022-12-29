@@ -1,8 +1,5 @@
 package squeek.applecore.mixinplugin;
 
-import com.google.common.io.Files;
-import java.nio.file.Path;
-
 public enum TargetedMod {
 
     //
@@ -13,39 +10,27 @@ public enum TargetedMod {
     //
 
     // Replace with your injected mods here, but always keep VANILLA:
-    VANILLA("Minecraft", "unused", true),
-    CODECHICKEN_LIB("CodeChickenLib", "CodeChickenLib-1.7.10-", true),
-    HARVESTCRAFT(
-            "Pam's Harvestcraft",
-            "harvestcraft-1.7.10-",
-            false), // It would be nice to have the "1.7.10" in the name too but the original name has a space before it
-    // but our workflow puts a dash there...
-    NATURA("Natura", "natura-1.7.10", false);
+    VANILLA("Minecraft", null),
+    CODECHICKEN_LIB("CodeChickenLib", "codechicken.lib", null),
+    HARVESTCRAFT("Pam's Harvestcraft", null, "harvestcraft"),
+    NATURA("Natura", null, "Natura");
 
     public final String modName;
-    public final String jarNamePrefixLowercase;
-    // Optional dependencies can be omitted in development. Especially skipping GT5U will drastically speed up your game
-    // start!
-    public final boolean loadInDevelopment;
+    public final String coreModClass;
+    public final String modId;
 
-    TargetedMod(String modName, String jarNamePrefix, boolean loadInDevelopment) {
-        this.modName = modName;
-        this.jarNamePrefixLowercase = jarNamePrefix.toLowerCase();
-        this.loadInDevelopment = loadInDevelopment;
+    TargetedMod(String modName, String coreModClass) {
+        this(modName, coreModClass, null);
     }
 
-    public boolean isMatchingJar(Path path) {
-        final String pathString = path.toString();
-        final String nameLowerCase = Files.getNameWithoutExtension(pathString).toLowerCase();
-        final String fileExtension = Files.getFileExtension(pathString);
-
-        return nameLowerCase.startsWith(jarNamePrefixLowercase) && "jar".equals(fileExtension);
+    TargetedMod(String modName, String coreModClass, String modId) {
+        this.modName = modName;
+        this.coreModClass = coreModClass;
+        this.modId = modId;
     }
 
     @Override
     public String toString() {
-        return "TargetedMod{" + "modName='"
-                + modName + '\'' + ", jarNamePrefixLowercase='"
-                + jarNamePrefixLowercase + '\'' + '}';
+        return "TargetedMod{modName='" + modName + "', coreModClass='" + coreModClass + "', modId='" + modId + "'}";
     }
 }

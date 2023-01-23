@@ -18,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import squeek.applecore.api.hunger.HealthRegenEvent;
-import squeek.applecore.mixinplugin.IAppleCoreEatingEntity;
-import squeek.applecore.mixinplugin.IAppleCorePlayerStats;
+import squeek.applecore.mixinplugin.ducks.EntityPlayerExt;
+import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
 
 @Mixin(EntityPlayer.class)
-public abstract class EntityPlayerMixin extends EntityLivingBase implements IAppleCoreEatingEntity {
+public abstract class EntityPlayerMixin extends EntityLivingBase implements EntityPlayerExt {
 
     @Unique
     private int itemInUseMaxDuration;
@@ -40,7 +40,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements IApp
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void redirectNewFoodStats(World world, GameProfile gameProfile, CallbackInfo callbackInfo) {
-        ((IAppleCorePlayerStats) foodStats).setPlayer((EntityPlayer) (Object) this);
+        ((FoodStatsExt) foodStats).setPlayer((EntityPlayer) (Object) this);
     }
 
     @Inject(

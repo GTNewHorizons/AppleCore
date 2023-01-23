@@ -1,8 +1,8 @@
-package squeek.applecore.mixinplugin;
+package squeek.applecore.mixinplugin.ducks;
 
 import net.minecraft.entity.player.EntityPlayer;
 
-public interface IAppleCorePlayerStats {
+public interface FoodStatsExt {
 
     void setPlayer(EntityPlayer entityPlayer);
 

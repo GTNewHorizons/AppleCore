@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.Slice;
-import squeek.applecore.mixinplugin.IAppleCoreEatingEntity;
+import squeek.applecore.mixinplugin.ducks.EntityPlayerExt;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
@@ -27,6 +27,6 @@ public class ItemRendererMixin {
                                             target =
                                                     "Lnet/minecraft/client/gui/MapItemRenderer;func_148250_a(Lnet/minecraft/world/storage/MapData;Z)V")))
     private int onRenderItemInFirstPerson(ItemStack instance) {
-        return ((IAppleCoreEatingEntity) mc.thePlayer).getItemInUseMaxDuration();
+        return ((EntityPlayerExt) mc.thePlayer).getItemInUseMaxDuration();
     }
 }

@@ -15,7 +15,7 @@ import squeek.applecore.api.food.IEdible;
 import squeek.applecore.api.hunger.ExhaustionEvent;
 import squeek.applecore.api.hunger.HealthRegenEvent;
 import squeek.applecore.api.hunger.StarvationEvent;
-import squeek.applecore.mixinplugin.IAppleCorePlayerStats;
+import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
 import squeek.applecore.mixins.early.minecraft.accessors.FoodStatsAccessor;
 
 public enum AppleCoreAccessorMutatorImpl implements IAppleCoreAccessor, IAppleCoreMutator {
@@ -137,6 +137,6 @@ public enum AppleCoreAccessorMutatorImpl implements IAppleCoreAccessor, IAppleCo
 
     @Override
     public void setStarveDamageTickCounter(EntityPlayer player, int tickCounter) {
-        ((IAppleCorePlayerStats) player.getFoodStats()).setStarveTimer(tickCounter);
+        ((FoodStatsExt) player.getFoodStats()).setStarveTimer(tickCounter);
     }
 }

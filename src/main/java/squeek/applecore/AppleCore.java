@@ -52,7 +52,7 @@ public class AppleCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
         AppleCoreDispatcherImpl.values();
         AppleCoreRegistryImpl.values();
 
-        FMLCommonHandler.instance().bus().register(new AppleCore());
+        FMLCommonHandler.instance().bus().register(this);
     }
 
     @EventHandler

@@ -58,11 +58,10 @@ public class AppleCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @EventHandler
     public void init(FMLInitializationEvent event) {
         SyncHandler.init();
-
         if (event.getSide() == Side.CLIENT) {
             DebugInfoHandler.init();
             HUDOverlayHandler.init();
-            TooltipOverlayHandler.init();
+            FMLCommonHandler.instance().bus().register(new TooltipOverlayHandler());
         }
     }
 

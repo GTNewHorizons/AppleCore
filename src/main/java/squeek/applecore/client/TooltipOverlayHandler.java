@@ -22,7 +22,6 @@ import squeek.applecore.ModInfo;
 import squeek.applecore.api.AppleCoreAPI;
 import squeek.applecore.api.food.FoodValues;
 import squeek.applecore.helpers.KeyHelper;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -79,10 +78,6 @@ public class TooltipOverlayHandler {
         }
     }
 
-    public static void init() {
-        FMLCommonHandler.instance().bus().register(new TooltipOverlayHandler());
-    }
-
     @SubscribeEvent
     public void onRenderTick(RenderTickEvent event) {
 
@@ -90,8 +85,8 @@ public class TooltipOverlayHandler {
             return;
         }
 
-        if ((ModConfig.SHOW_FOOD_VALUES_IN_TOOLTIP && KeyHelper.isShiftKeyDown())
-                || ModConfig.ALWAYS_SHOW_FOOD_VALUES_TOOLTIP) {
+        if (ModConfig.ALWAYS_SHOW_FOOD_VALUES_TOOLTIP
+                || (ModConfig.SHOW_FOOD_VALUES_IN_TOOLTIP && KeyHelper.isShiftKeyDown())) {
 
             Minecraft mc = Minecraft.getMinecraft();
             EntityPlayer player = mc.thePlayer;

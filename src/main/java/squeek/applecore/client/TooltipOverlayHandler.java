@@ -47,6 +47,7 @@ public class TooltipOverlayHandler {
     private static Method getStackMouseOver = null;
     private static Method isNEIHidden = null;
     private static Field itemPanel = null;
+    private static Field bookmarkPanel = null;
     private static boolean neiLoaded = false;
     private static Class<?> foodJournalGui = null;
     private static Field foodJournalHoveredStack = null;
@@ -58,7 +59,8 @@ public class TooltipOverlayHandler {
             if (neiLoaded) {
                 Class<?> LayoutManager = Class.forName("codechicken.nei.LayoutManager");
                 itemPanel = LayoutManager.getDeclaredField("itemPanel");
-                getStackMouseOver = Class.forName("codechicken.nei.ItemPanel")
+                bookmarkPanel = LayoutManager.getDeclaredField("bookmarkPanel");
+                getStackMouseOver = Class.forName("codechicken.nei.Widget")
                         .getDeclaredMethod("getStackMouseOver", int.class, int.class);
                 isNEIHidden = Class.forName("codechicken.nei.NEIClientConfig").getDeclaredMethod("isHidden");
             }
@@ -120,6 +122,10 @@ public class TooltipOverlayHandler {
                             && !(boolean) isNEIHidden.invoke(null)
                             && getStackMouseOver != null) {
                         hoveredStack = (ItemStack) (getStackMouseOver.invoke(itemPanel.get(null), mouseX, mouseY));
+                        if (hoveredStack == null) {
+                            hoveredStack = (ItemStack) (getStackMouseOver
+                                    .invoke(bookmarkPanel.get(null), mouseX, mouseY));
+                        }
                     }
 
                     // try FoodJournal

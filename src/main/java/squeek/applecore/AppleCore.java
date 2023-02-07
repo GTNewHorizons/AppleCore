@@ -1,10 +1,13 @@
 package squeek.applecore;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import net.minecraft.launchwrapper.Launch;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -82,6 +85,7 @@ public class AppleCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
 
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
+        ModConfig.init(new File(Launch.minecraftHome, "config/" + ModInfo.MODID + ".cfg"));
         // Manual coremod identification
         try {
             Class.forName("codechicken.lib.asm.ModularASMTransformer");

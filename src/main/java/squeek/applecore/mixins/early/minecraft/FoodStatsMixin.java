@@ -1,5 +1,7 @@
 package squeek.applecore.mixins.early.minecraft;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import squeek.applecore.api.AppleCoreAPI;
 import squeek.applecore.api.food.FoodEvent;
 import squeek.applecore.api.food.FoodValues;
@@ -22,10 +25,12 @@ import squeek.applecore.api.hunger.ExhaustionEvent;
 import squeek.applecore.api.hunger.HealthRegenEvent;
 import squeek.applecore.api.hunger.StarvationEvent;
 import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
-import cpw.mods.fml.common.eventhandler.Event;
 
 @Mixin(FoodStats.class)
 public abstract class FoodStatsMixin implements FoodStatsExt {
+
+    private static Field fieldEntityPlayer;
+    private static boolean searchedFieldEntityPlayer;
 
     @Unique
     private EntityPlayer entityPlayer;
@@ -66,7 +71,7 @@ public abstract class FoodStatsMixin implements FoodStatsExt {
     @Inject(method = "addStats", at = @At("HEAD"), cancellable = true)
     private void onAddStats(int hunger, float saturationModifier, CallbackInfo callbackInfo) {
         FoodEvent.FoodStatsAddition event = new FoodEvent.FoodStatsAddition(
-                entityPlayer,
+                appleCore$getEntityPlayer(),
                 new FoodValues(hunger, saturationModifier));
         MinecraftForge.EVENT_BUS.post(event);
         if (event.isCancelable() && event.isCanceled()) {
@@ -80,7 +85,7 @@ public abstract class FoodStatsMixin implements FoodStatsExt {
      */
     @Overwrite
     public void func_151686_a(ItemFood itemFood, ItemStack itemStack) {
-        FoodValues modifiedFoodValues = AppleCoreAPI.accessor.getFoodValuesForPlayer(itemStack, entityPlayer);
+        FoodValues modifiedFoodValues = AppleCoreAPI.accessor.getFoodValuesForPlayer(itemStack, appleCore$getEntityPlayer());
         int prevFoodLevel = foodLevel;
         float prevSaturationLevel = foodSaturationLevel;
 
@@ -88,7 +93,7 @@ public abstract class FoodStatsMixin implements FoodStatsExt {
 
         MinecraftForge.EVENT_BUS.post(
                 new FoodEvent.FoodEaten(
-                        entityPlayer,
+                        appleCore$getEntityPlayer(),
                         itemStack,
                         modifiedFoodValues,
                         foodLevel - prevFoodLevel,
@@ -161,5 +166,38 @@ public abstract class FoodStatsMixin implements FoodStatsExt {
         } else {
             starveTimer = 0;
         }
+    }
+
+    @Unique
+    private EntityPlayer appleCore$getEntityPlayer() {
+        if (!searchedFieldEntityPlayer) {
+            try {
+                // noinspection JavaReflectionMemberAccess
+                fieldEntityPlayer = FoodStats.class.getDeclaredField("entityplayer");
+                fieldEntityPlayer.setAccessible(true);
+            } catch (NoSuchFieldException ignored) {}
+            searchedFieldEntityPlayer = true;
+        }
+
+        // Thermos strikes again: EntityPlayer#foodStats might be reassigned by Thermos's patch EntityPlayerMP#reset(),
+        // which means `FoodStats` might be initialized outside `EntityPlayer` constructor
+        // (where AppleCore injects `redirectNewFoodStats`), thus our field `entityPlayer` can be null.
+        // Here we try to access Thermos's own field `entityplayer` and return non-null player.
+
+        if (entityPlayer != null) {
+            return entityPlayer;
+        }
+        if (fieldEntityPlayer != null) {
+            try {
+                Object thermosEntityPlayer = fieldEntityPlayer.get(this);
+                if (thermosEntityPlayer instanceof EntityPlayer) {
+                    this.entityPlayer = (EntityPlayer) thermosEntityPlayer;
+                    return entityPlayer;
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        throw new RuntimeException("Cannot find non-null EntityPlayer that should belong to FoodStats");
     }
 }

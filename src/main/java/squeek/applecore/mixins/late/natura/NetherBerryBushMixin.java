@@ -2,16 +2,15 @@ package squeek.applecore.mixins.late.natura;
 
 import java.util.Random;
 
-import mods.natura.blocks.crops.NetherBerryBush;
-
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.Event;
+import mods.natura.blocks.crops.NetherBerryBush;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(NetherBerryBush.class)
 public class NetherBerryBushMixin extends BlockLeavesBase {

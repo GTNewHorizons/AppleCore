@@ -8,10 +8,10 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-import squeek.applecore.api.AppleCoreAPI;
-
 import com.pam.harvestcraft.BlockPamSapling;
+
 import cpw.mods.fml.common.eventhandler.Event;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(BlockPamSapling.class)
 public abstract class BlockPamSaplingMixin extends BlockFlower {

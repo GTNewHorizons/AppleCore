@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.common.MinecraftForge;
 
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.Cancelable;
 import cpw.mods.fml.common.eventhandler.Event;
+import squeek.applecore.api.AppleCoreAPI;
 
 /**
  * Base class for all FoodEvent events.<br>

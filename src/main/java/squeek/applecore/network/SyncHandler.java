@@ -10,9 +10,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
-import squeek.applecore.ModConfig;
-import squeek.applecore.ModInfo;
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -21,6 +18,9 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import squeek.applecore.ModConfig;
+import squeek.applecore.ModInfo;
+import squeek.applecore.api.AppleCoreAPI;
 
 public class SyncHandler {
 

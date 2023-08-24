@@ -7,10 +7,10 @@ import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-import squeek.applecore.api.AppleCoreAPI;
-
 import com.pam.harvestcraft.BlockPamFruit;
+
 import cpw.mods.fml.common.eventhandler.Event;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(BlockPamFruit.class)
 public class BlockPamFruitMixin extends Block {

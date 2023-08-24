@@ -16,14 +16,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import squeek.applecore.api.hunger.HealthRegenEvent;
-import squeek.applecore.mixinplugin.ducks.EntityPlayerExt;
-import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
-
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.api.hunger.HealthRegenEvent;
+import squeek.applecore.mixinplugin.ducks.EntityPlayerExt;
+import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
 
 @Mixin(EntityPlayer.class)
 public abstract class EntityPlayerMixin extends EntityLivingBase implements EntityPlayerExt {

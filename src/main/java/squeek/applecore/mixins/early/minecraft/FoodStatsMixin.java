@@ -85,7 +85,8 @@ public abstract class FoodStatsMixin implements FoodStatsExt {
      */
     @Overwrite
     public void func_151686_a(ItemFood itemFood, ItemStack itemStack) {
-        FoodValues modifiedFoodValues = AppleCoreAPI.accessor.getFoodValuesForPlayer(itemStack, appleCore$getEntityPlayer());
+        FoodValues modifiedFoodValues = AppleCoreAPI.accessor
+                .getFoodValuesForPlayer(itemStack, appleCore$getEntityPlayer());
         int prevFoodLevel = foodLevel;
         float prevSaturationLevel = foodSaturationLevel;
 

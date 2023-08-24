@@ -5,8 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import squeek.applecore.client.TooltipOverlayHandler;
 import codechicken.lib.gui.GuiDraw;
+import squeek.applecore.client.TooltipOverlayHandler;
 
 @Mixin(GuiDraw.class)
 public class GuiDrawMixin {

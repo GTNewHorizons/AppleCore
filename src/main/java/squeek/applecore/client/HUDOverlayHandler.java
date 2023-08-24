@@ -14,10 +14,6 @@ import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.opengl.GL11;
 
-import squeek.applecore.ModConfig;
-import squeek.applecore.ModInfo;
-import squeek.applecore.api.AppleCoreAPI;
-import squeek.applecore.api.food.FoodValues;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -25,6 +21,10 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.ModConfig;
+import squeek.applecore.ModInfo;
+import squeek.applecore.api.AppleCoreAPI;
+import squeek.applecore.api.food.FoodValues;
 
 @SideOnly(Side.CLIENT)
 public class HUDOverlayHandler {

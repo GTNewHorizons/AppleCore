@@ -2,8 +2,6 @@ package squeek.applecore.mixins.late.natura;
 
 import java.util.Random;
 
-import mods.natura.blocks.crops.Glowshroom;
-
 import net.minecraft.block.BlockMushroom;
 import net.minecraft.world.World;
 
@@ -14,8 +12,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.Event;
+import mods.natura.blocks.crops.Glowshroom;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(Glowshroom.class)
 public class GlowshroomMixin extends BlockMushroom {

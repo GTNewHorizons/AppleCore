@@ -16,12 +16,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import squeek.applecore.AppleCore;
-import squeek.applecore.ModConfig;
-import squeek.applecore.ModInfo;
-import squeek.applecore.api.AppleCoreAPI;
-import squeek.applecore.api.food.FoodValues;
-import squeek.applecore.helpers.KeyHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -30,6 +24,12 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.AppleCore;
+import squeek.applecore.ModConfig;
+import squeek.applecore.ModInfo;
+import squeek.applecore.api.AppleCoreAPI;
+import squeek.applecore.api.food.FoodValues;
+import squeek.applecore.helpers.KeyHelper;
 
 @SideOnly(Side.CLIENT)
 public class TooltipOverlayHandler {

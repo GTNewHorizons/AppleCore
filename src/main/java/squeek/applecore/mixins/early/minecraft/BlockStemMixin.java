@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.Event;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(BlockStem.class)
 public class BlockStemMixin extends BlockBush {

@@ -7,11 +7,11 @@ import net.minecraft.util.FoodStats;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 
-import squeek.applecore.ModConfig;
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.ModConfig;
+import squeek.applecore.api.AppleCoreAPI;
 
 @SideOnly(Side.CLIENT)
 public class DebugInfoHandler {

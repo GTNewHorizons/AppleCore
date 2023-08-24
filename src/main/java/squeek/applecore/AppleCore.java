@@ -12,16 +12,6 @@ import net.minecraft.launchwrapper.Launch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import squeek.applecore.api_impl.AppleCoreAccessorMutatorImpl;
-import squeek.applecore.api_impl.AppleCoreDispatcherImpl;
-import squeek.applecore.api_impl.AppleCoreRegistryImpl;
-import squeek.applecore.client.DebugInfoHandler;
-import squeek.applecore.client.HUDOverlayHandler;
-import squeek.applecore.client.TooltipOverlayHandler;
-import squeek.applecore.commands.Commands;
-import squeek.applecore.mixinplugin.Mixins;
-import squeek.applecore.network.SyncHandler;
-
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
@@ -34,6 +24,15 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.Side;
+import squeek.applecore.api_impl.AppleCoreAccessorMutatorImpl;
+import squeek.applecore.api_impl.AppleCoreDispatcherImpl;
+import squeek.applecore.api_impl.AppleCoreRegistryImpl;
+import squeek.applecore.client.DebugInfoHandler;
+import squeek.applecore.client.HUDOverlayHandler;
+import squeek.applecore.client.TooltipOverlayHandler;
+import squeek.applecore.commands.Commands;
+import squeek.applecore.mixinplugin.Mixins;
+import squeek.applecore.network.SyncHandler;
 
 @IFMLLoadingPlugin.SortingIndex(1100)
 @IFMLLoadingPlugin.MCVersion("1.7.10")

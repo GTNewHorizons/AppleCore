@@ -6,10 +6,10 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import squeek.applecore.api.AppleCoreAPI;
 import squeek.applecore.api.IAppleCoreDispatcher;
 import squeek.applecore.api.plants.PlantGrowthEvent;
-import cpw.mods.fml.common.eventhandler.Event;
 
 public enum AppleCoreDispatcherImpl implements IAppleCoreDispatcher {
 

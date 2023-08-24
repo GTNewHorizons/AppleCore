@@ -5,10 +5,10 @@ import java.util.Arrays;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 
-import squeek.applecore.ModConfig;
-import squeek.applecore.ModInfo;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
+import squeek.applecore.ModConfig;
+import squeek.applecore.ModInfo;
 
 public class GuiAppleCoreConfig extends GuiConfig {
 

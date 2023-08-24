@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-import squeek.applecore.api.AppleCoreAPI;
 import cpw.mods.fml.common.eventhandler.Event;
+import squeek.applecore.api.AppleCoreAPI;
 
 @Mixin(BlockNetherWart.class)
 public class BlockNetherWartMixin extends BlockBush {

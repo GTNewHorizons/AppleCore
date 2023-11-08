@@ -1,8 +1,5 @@
 package squeek.applecore.api.hunger;
 
-import static cpw.mods.fml.common.eventhandler.Event.HasResult;
-import static cpw.mods.fml.common.eventhandler.Event.Result;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.common.MinecraftForge;

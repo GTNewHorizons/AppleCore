@@ -1,8 +1,5 @@
 package squeek.applecore.api.plants;
 
-import static cpw.mods.fml.common.eventhandler.Event.HasResult;
-import static cpw.mods.fml.common.eventhandler.Event.Result;
-
 import java.util.Random;
 
 import net.minecraft.block.Block;

@@ -1,7 +1,5 @@
 package squeek.applecore.api.food;
 
-import static cpw.mods.fml.common.eventhandler.Event.HasResult;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;

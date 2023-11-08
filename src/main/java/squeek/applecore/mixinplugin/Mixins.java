@@ -1,6 +1,9 @@
 package squeek.applecore.mixinplugin;
 
-import static squeek.applecore.mixinplugin.TargetedMod.*;
+import static squeek.applecore.mixinplugin.TargetedMod.CODECHICKEN_LIB;
+import static squeek.applecore.mixinplugin.TargetedMod.HARVESTCRAFT;
+import static squeek.applecore.mixinplugin.TargetedMod.NATURA;
+import static squeek.applecore.mixinplugin.TargetedMod.VANILLA;
 
 import java.util.ArrayList;
 import java.util.Arrays;

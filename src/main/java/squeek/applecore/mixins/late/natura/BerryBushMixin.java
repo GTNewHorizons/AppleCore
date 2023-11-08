@@ -15,7 +15,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BerryBush.class)
 public class BerryBushMixin extends BlockLeavesBase {
 
-    protected BerryBushMixin() {
+    private BerryBushMixin() {
         super(null, false);
     }
 

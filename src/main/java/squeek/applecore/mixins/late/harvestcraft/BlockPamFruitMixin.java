@@ -15,7 +15,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BlockPamFruit.class)
 public class BlockPamFruitMixin extends Block {
 
-    protected BlockPamFruitMixin() {
+    private BlockPamFruitMixin() {
         super(null);
     }
 

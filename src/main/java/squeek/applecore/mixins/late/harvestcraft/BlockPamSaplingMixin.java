@@ -16,7 +16,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BlockPamSapling.class)
 public abstract class BlockPamSaplingMixin extends BlockFlower {
 
-    protected BlockPamSaplingMixin() {
+    private BlockPamSaplingMixin() {
         super(0);
     }
 

@@ -33,7 +33,7 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements Enti
     @Shadow
     protected FoodStats foodStats;
 
-    public EntityPlayerMixin() {
+    private EntityPlayerMixin() {
         super(null);
     }
 

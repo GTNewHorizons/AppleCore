@@ -16,7 +16,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BlockCactus.class)
 public abstract class BlockCactusMixin extends Block {
 
-    protected BlockCactusMixin() {
+    private BlockCactusMixin() {
         super(null);
     }
 

@@ -24,7 +24,7 @@ public class BlockReedMixin extends Block {
     @Unique
     private int previousMetadata = 0;
 
-    protected BlockReedMixin() {
+    private BlockReedMixin() {
         super(null);
     }
 

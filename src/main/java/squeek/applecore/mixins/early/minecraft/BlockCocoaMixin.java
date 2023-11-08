@@ -15,7 +15,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BlockCocoa.class)
 public abstract class BlockCocoaMixin extends BlockDirectional {
 
-    protected BlockCocoaMixin() {
+    private BlockCocoaMixin() {
         super(null);
     }
 

@@ -15,7 +15,7 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(NetherBerryBush.class)
 public class NetherBerryBushMixin extends BlockLeavesBase {
 
-    protected NetherBerryBushMixin() {
+    private NetherBerryBushMixin() {
         super(null, false);
     }
 

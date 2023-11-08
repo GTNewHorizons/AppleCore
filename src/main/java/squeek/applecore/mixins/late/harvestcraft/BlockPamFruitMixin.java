@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import com.pam.harvestcraft.BlockPamFruit;
 
@@ -19,7 +20,7 @@ public class BlockPamFruitMixin extends Block {
         super(null);
     }
 
-    // @Override
+    @Overwrite
     public void func_149674_a(World world, int blockX, int blockY, int blockZ, Random random) {
         super.updateTick(world, blockX, blockY, blockZ, random);
         int metadata = world.getBlockMetadata(blockX, blockY, blockZ);

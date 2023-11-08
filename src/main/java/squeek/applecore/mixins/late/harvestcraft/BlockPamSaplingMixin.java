@@ -6,6 +6,7 @@ import net.minecraft.block.BlockFlower;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import com.pam.harvestcraft.BlockPamSapling;
@@ -23,7 +24,7 @@ public abstract class BlockPamSaplingMixin extends BlockFlower {
     @Shadow(remap = false)
     public abstract void markOrGrowMarked(World world, int blockX, int blockY, int blockZ, Random random);
 
-    // @Override
+    @Overwrite
     public void func_149674_a(World world, int blockX, int blockY, int blockZ, Random random) {
         if (!world.isRemote) {
             super.updateTick(world, blockX, blockY, blockZ, random);

@@ -6,6 +6,7 @@ import net.minecraft.block.BlockBush;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 import cpw.mods.fml.common.eventhandler.Event;
@@ -21,7 +22,7 @@ public abstract class CropBlockMixin extends BlockBush {
     @Shadow(remap = false)
     protected abstract float getGrowthRate(World world, int blockX, int blockY, int blockZ, int metadata, int light);
 
-    @Override
+    @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         checkAndDropBlock(world, blockX, blockY, blockZ);
         int light = world.getBlockLightValue(blockX, blockY, blockZ);

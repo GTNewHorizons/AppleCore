@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import mods.natura.blocks.crops.NetherBerryBush;
@@ -20,7 +21,7 @@ public class NetherBerryBushMixin extends BlockLeavesBase {
     }
 
     // Identical to BerryBushMixin
-    @Override
+    @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         if (!world.isRemote) {
             int height;

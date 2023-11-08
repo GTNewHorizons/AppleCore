@@ -27,8 +27,8 @@ public class GuiScreenMixin {
                             target = "Lnet/minecraft/client/gui/GuiScreen;drawGradientRect(IIIIII)V",
                             ordinal = 0)),
             locals = LocalCapture.CAPTURE_FAILHARD)
-    private void onDrawHoveringText(List textLines, int x, int y, FontRenderer font, CallbackInfo ci, int k,
-            Iterator iterator, int j2, int k2, int i1, int j1, int k1, int l1, int i2) {
+    private void onDrawHoveringText(List<String> textLines, int x, int y, FontRenderer font, CallbackInfo ci, int k,
+            Iterator<String> iterator, int j2, int k2, int i1, int j1, int k1, int l1, int i2) {
         TooltipOverlayHandler.toolTipX = j2;
         TooltipOverlayHandler.toolTipY = k2;
         TooltipOverlayHandler.toolTipW = k;

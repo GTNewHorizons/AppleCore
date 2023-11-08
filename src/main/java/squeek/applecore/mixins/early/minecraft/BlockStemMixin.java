@@ -25,11 +25,11 @@ public class BlockStemMixin extends BlockBush {
             method = "updateTick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockLightValue(III)I"))
     private int redirectGetBlockLightValue(int original, World worldIn, int x, int y, int z, Random random) {
-        return switch(AppleCoreAPI.dispatcher.validatePlantGrowth(this, worldIn, x, y, z, random)) {
+        return switch (AppleCoreAPI.dispatcher.validatePlantGrowth(this, worldIn, x, y, z, random)) {
             case ALLOW -> 9; // true
             case DEFAULT -> original;
             default -> 0; // DENY -> false
-            
+
         };
     }
 
@@ -37,7 +37,8 @@ public class BlockStemMixin extends BlockBush {
             method = "updateTick",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"))
     private void onGetBlockMetadata(World world, int blockX, int blockY, int blockZ, Random random,
-            CallbackInfo callbackInfo, @Local(name = "l") int l, @Share("previousMetadata") LocalIntRef previousMetadata) {
+            CallbackInfo callbackInfo, @Local(name = "l") int l,
+            @Share("previousMetadata") LocalIntRef previousMetadata) {
         previousMetadata.set(l);
     }
 

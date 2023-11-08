@@ -4,7 +4,6 @@ import net.minecraft.block.BlockCake;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.FoodStats;
-import net.minecraft.world.World;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -27,7 +26,8 @@ public class BlockCakeMixin implements IEdibleBlock {
     @Redirect(
             method = "func_150036_b",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/FoodStats;addStats(IF)V"))
-    private void replaceAddStats(FoodStats instance, int p_75122_1_, float p_75122_2_, @Local EntityPlayer p_150036_5_) {
+    private void replaceAddStats(FoodStats instance, int p_75122_1_, float p_75122_2_,
+            @Local EntityPlayer p_150036_5_) {
         ItemStack itemStack = new ItemStack(AppleCoreAPI.registry.getItemFromEdibleBlock((BlockCake) (Object) this));
         new ItemFoodProxy(this).onEaten(itemStack, p_150036_5_);
     }

@@ -21,8 +21,7 @@ public abstract class BlockCactusMixin extends Block {
     }
 
     @Shadow
-    public abstract void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_,
-            Block p_149695_5_);
+    public abstract void onNeighborBlockChange(World worldIn, int x, int y, int z, Block neighbor);
 
     /**
      * @author squeek

@@ -20,8 +20,11 @@ import squeek.applecore.api.AppleCoreAPI;
 @Mixin(BlockMushroom.class)
 public class BlockMushroomMixin extends BlockBush {
 
-    @ModifyExpressionValue(method = "updateTick", at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 0))
-    private int onUpdateTick(int original, Random random, World worldIn, int x, int y, int z, @Share("executedCondition") LocalBooleanRef executedCondition) {
+    @ModifyExpressionValue(
+            method = "updateTick",
+            at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 0))
+    private int onUpdateTick(int original, Random random, World worldIn, int x, int y, int z,
+            @Share("executedCondition") LocalBooleanRef executedCondition) {
         switch (AppleCoreAPI.dispatcher.validatePlantGrowth(this, worldIn, x, y, z, random)) {
             case ALLOW:
                 executedCondition.set(true);
@@ -35,7 +38,8 @@ public class BlockMushroomMixin extends BlockBush {
     }
 
     @Inject(method = "updateTick", at = @At("RETURN"))
-    private void afterUpdateTick(World worldIn, int x, int y, int z, Random random, CallbackInfo ci, @Share("executedCondition") LocalBooleanRef executedCondition) {
+    private void afterUpdateTick(World worldIn, int x, int y, int z, Random random, CallbackInfo ci,
+            @Share("executedCondition") LocalBooleanRef executedCondition) {
         if (executedCondition.get()) {
             AppleCoreAPI.dispatcher.announcePlantGrowthWithoutMetadataChange(this, worldIn, x, y, z);
         }

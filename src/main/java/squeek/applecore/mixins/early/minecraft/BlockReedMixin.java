@@ -28,12 +28,12 @@ public class BlockReedMixin extends Block {
 
     @Inject(
             method = "updateTick",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"),
             cancellable = true)
     private void beforeGetBlockMetadata(World world, int blockX, int blockY, int blockZ, Random random,
-            CallbackInfo callbackInfo, @Local(name = "i1") int i1, @Share("wasAllowedToGrow") LocalBooleanRef wasAllowedToGrow, @Share("previousMetadata") LocalIntRef previousMetadata) {
+            CallbackInfo callbackInfo, @Local(name = "i1") int i1,
+            @Share("wasAllowedToGrow") LocalBooleanRef wasAllowedToGrow,
+            @Share("previousMetadata") LocalIntRef previousMetadata) {
         if (AppleCoreAPI.dispatcher.validatePlantGrowth(this, world, blockX, blockY, blockZ, random)
                 == Event.Result.DENY) {
             wasAllowedToGrow.set(true);
@@ -44,7 +44,8 @@ public class BlockReedMixin extends Block {
 
     @Inject(method = "updateTick", at = @At("RETURN"))
     private void afterUpdateTick(World world, int blockX, int blockY, int blockZ, Random random,
-            CallbackInfo callbackInfo, @Share("wasAllowedToGrow") LocalBooleanRef wasAllowedToGrow, @Share("previousMetadata") LocalIntRef previousMetadata) {
+            CallbackInfo callbackInfo, @Share("wasAllowedToGrow") LocalBooleanRef wasAllowedToGrow,
+            @Share("previousMetadata") LocalIntRef previousMetadata) {
         if (wasAllowedToGrow.get()) {
             AppleCoreAPI.dispatcher.announcePlantGrowth(this, world, blockX, blockY, blockZ, previousMetadata.get());
         }

@@ -34,7 +34,8 @@ public class GlowshroomMixin extends BlockMushroom {
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/World;setBlock(IIILnet/minecraft/block/Block;II)Z",
                     shift = At.Shift.AFTER))
-    private void afterSetBlock(World world, int x, int y, int z, Random random, CallbackInfo ci, @Local(name = "meta") int meta) {
+    private void afterSetBlock(World world, int x, int y, int z, Random random, CallbackInfo ci,
+            @Local(name = "meta") int meta) {
         AppleCoreAPI.dispatcher.announcePlantGrowth(this, world, x, y, z, meta);
     }
 }

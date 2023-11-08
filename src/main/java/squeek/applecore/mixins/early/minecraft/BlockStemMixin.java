@@ -35,7 +35,7 @@ public class BlockStemMixin extends BlockBush {
 
     @Inject(
             method = "updateTick",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"))
+            at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/World;getBlockMetadata(III)I"))
     private void onGetBlockMetadata(World world, int blockX, int blockY, int blockZ, Random random,
             CallbackInfo callbackInfo, @Local(name = "l") int l,
             @Share("previousMetadata") LocalIntRef previousMetadata) {

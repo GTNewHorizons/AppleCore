@@ -23,7 +23,7 @@ public class BlockMushroomMixin extends BlockBush {
     @ModifyExpressionValue(
             method = "updateTick",
             at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 0))
-    private int onUpdateTick(int original, Random random, World worldIn, int x, int y, int z,
+    private int onUpdateTick(int original, World worldIn, int x, int y, int z, Random random,
             @Share("executedCondition") LocalBooleanRef executedCondition) {
         switch (AppleCoreAPI.dispatcher.validatePlantGrowth(this, worldIn, x, y, z, random)) {
             case ALLOW:

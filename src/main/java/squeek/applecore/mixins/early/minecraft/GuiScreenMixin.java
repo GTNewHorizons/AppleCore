@@ -18,7 +18,6 @@ import squeek.applecore.client.TooltipOverlayHandler;
 @Mixin(GuiScreen.class)
 public class GuiScreenMixin {
 
-    @SuppressWarnings("rawtypes")
     @Inject(
             method = "drawHoveringText",
             at = @At(value = "INVOKE", target = "Ljava/util/List;size()I", shift = At.Shift.BEFORE),

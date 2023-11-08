@@ -54,9 +54,8 @@ public class CommandHunger extends CommandBase {
         }
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] curArgs) {
+    public List<String> addTabCompletionOptions(ICommandSender commandSender, String[] curArgs) {
         if (curArgs.length == 1)
             return getListOfStringsMatchingLastWord(curArgs, MinecraftServer.getServer().getAllUsernames());
         else return null;

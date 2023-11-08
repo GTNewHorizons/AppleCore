@@ -21,7 +21,7 @@ public class BlockPamFruitMixin extends Block {
     }
 
     @Overwrite
-    public void func_149674_a(World world, int blockX, int blockY, int blockZ, Random random) {
+    public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         super.updateTick(world, blockX, blockY, blockZ, random);
         int metadata = world.getBlockMetadata(blockX, blockY, blockZ);
         Event.Result allowGrowthResult = AppleCoreAPI.dispatcher

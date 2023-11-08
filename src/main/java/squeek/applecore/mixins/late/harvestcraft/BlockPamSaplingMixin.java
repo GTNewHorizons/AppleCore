@@ -25,7 +25,7 @@ public abstract class BlockPamSaplingMixin extends BlockFlower {
     public abstract void markOrGrowMarked(World world, int blockX, int blockY, int blockZ, Random random);
 
     @Overwrite
-    public void func_149674_a(World world, int blockX, int blockY, int blockZ, Random random) {
+    public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         if (!world.isRemote) {
             super.updateTick(world, blockX, blockY, blockZ, random);
             Event.Result allowGrowthResult = AppleCoreAPI.dispatcher

@@ -20,6 +20,10 @@ public class BerryBushMixin extends BlockLeavesBase {
         super(null, false);
     }
 
+    /**
+     * @author squeek592, SinTh0r4s
+     * @reason AppleCore integration
+     */
     @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         if (!world.isRemote) {

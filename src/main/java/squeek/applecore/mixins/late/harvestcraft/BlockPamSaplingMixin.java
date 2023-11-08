@@ -24,6 +24,10 @@ public abstract class BlockPamSaplingMixin extends BlockFlower {
     @Shadow(remap = false)
     public abstract void markOrGrowMarked(World world, int blockX, int blockY, int blockZ, Random random);
 
+    /**
+     * @author squeek592, SinTh0r4s
+     * @reason AppleCore integration
+     */
     @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         if (!world.isRemote) {

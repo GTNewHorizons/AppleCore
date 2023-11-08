@@ -20,6 +20,10 @@ public class BlockPamFruitMixin extends Block {
         super(null);
     }
 
+    /**
+     * @author squeek592, SinTh0r4s
+     * @reason AppleCore integration
+     */
     @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         super.updateTick(world, blockX, blockY, blockZ, random);

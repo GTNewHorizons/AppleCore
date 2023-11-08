@@ -20,6 +20,10 @@ public class NetherBerryBushMixin extends BlockLeavesBase {
         super(null, false);
     }
 
+    /**
+     * @author squeek592, SinTh0r4s
+     * @reason AppleCore integration
+     */
     // Identical to BerryBushMixin
     @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {

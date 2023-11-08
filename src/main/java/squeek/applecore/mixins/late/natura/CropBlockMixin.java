@@ -22,6 +22,10 @@ public abstract class CropBlockMixin extends BlockBush {
     @Shadow(remap = false)
     protected abstract float getGrowthRate(World world, int blockX, int blockY, int blockZ, int metadata, int light);
 
+    /**
+     * @author squeek592, SinTh0r4s
+     * @reason AppleCore integration
+     */
     @Overwrite
     public void updateTick(World world, int blockX, int blockY, int blockZ, Random random) {
         checkAndDropBlock(world, blockX, blockY, blockZ);

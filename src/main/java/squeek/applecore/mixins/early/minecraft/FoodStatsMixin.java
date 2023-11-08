@@ -29,12 +29,16 @@ import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
 @Mixin(FoodStats.class)
 public abstract class FoodStatsMixin implements FoodStatsExt {
 
+    @Unique
     private static Field fieldEntityPlayer;
+
+    @Unique
     private static boolean searchedFieldEntityPlayer;
 
     @Unique
     private EntityPlayer entityPlayer;
 
+    @Unique
     private int starveTimer;
 
     @Override

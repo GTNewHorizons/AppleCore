@@ -1,7 +1,7 @@
 // Add your dependencies here
 
 dependencies {
-    compileOnly("com.github.GTNewHorizons:CodeChickenLib:1.3.0:dev")
+    compileOnly("com.github.GTNewHorizons:CodeChickenCore:1.3.7:dev")
     compileOnly("com.github.GTNewHorizons:Natura:2.7.1:dev") { transitive = false }
     compileOnly(deobfCurse("pams-harvestcraft-221857:2270206"))
 

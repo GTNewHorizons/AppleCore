@@ -17,7 +17,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
@@ -35,14 +34,7 @@ import squeek.applecore.helpers.KeyHelper;
 public class TooltipOverlayHandler {
 
     private static final ResourceLocation modIcons = new ResourceLocation(ModInfo.MODID_LOWER, "textures/icons.png");
-    // private static final Field guiLeft = ReflectionHelper.findField(GuiContainer.class,
-    // ObfuscationReflectionHelper.remapFieldNames(GuiContainer.class.getName(), "guiLeft", "field_147003_i", "i"));
-    // private static final Field guiTop = ReflectionHelper.findField(GuiContainer.class,
-    // ObfuscationReflectionHelper.remapFieldNames(GuiContainer.class.getName(), "guiTop", "field_147009_r", "r"));
-    public static final Field theSlot = ReflectionHelper.findField(
-            GuiContainer.class,
-            ObfuscationReflectionHelper
-                    .remapFieldNames(GuiContainer.class.getName(), "theSlot", "field_147006_u", "u"));
+    public static final Field theSlot = ReflectionHelper.findField(GuiContainer.class, "theSlot", "field_147006_u", "u");
     private static Method getStackMouseOver = null;
     private static Method isNEIHidden = null;
     private static Field itemPanel = null;

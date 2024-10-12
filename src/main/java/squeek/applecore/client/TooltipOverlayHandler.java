@@ -34,7 +34,8 @@ import squeek.applecore.helpers.KeyHelper;
 public class TooltipOverlayHandler {
 
     private static final ResourceLocation modIcons = new ResourceLocation(ModInfo.MODID_LOWER, "textures/icons.png");
-    public static final Field theSlot = ReflectionHelper.findField(GuiContainer.class, "theSlot", "field_147006_u", "u");
+    public static final Field theSlot = ReflectionHelper
+            .findField(GuiContainer.class, "theSlot", "field_147006_u", "u");
     private static Method getStackMouseOver = null;
     private static Method isNEIHidden = null;
     private static Field itemPanel = null;

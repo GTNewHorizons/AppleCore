@@ -15,8 +15,17 @@ import squeek.applecore.client.TooltipOverlayHandler;
 @Mixin(GuiScreen.class)
 public class GuiScreenMixin {
 
-    @Inject(at = @At(opcode = Opcodes.PUTFIELD, ordinal = 0, remap = true, target = "Lnet/minecraft/client/gui/GuiScreen;zLevel:F", value = "FIELD"), method = "drawHoveringText", remap = false)
-    private void onDrawHoveringText(CallbackInfo ci, @Local(ordinal = 3) int x, @Local(ordinal = 4) int y, @Local(ordinal = 2) int w, @Local(ordinal = 5) int h) {
+    @Inject(
+            at = @At(
+                    opcode = Opcodes.PUTFIELD,
+                    ordinal = 0,
+                    remap = true,
+                    target = "Lnet/minecraft/client/gui/GuiScreen;zLevel:F",
+                    value = "FIELD"),
+            method = "drawHoveringText",
+            remap = false)
+    private void onDrawHoveringText(CallbackInfo ci, @Local(ordinal = 3) int x, @Local(ordinal = 4) int y,
+            @Local(ordinal = 2) int w, @Local(ordinal = 5) int h) {
         TooltipOverlayHandler.toolTipX = x;
         TooltipOverlayHandler.toolTipY = y;
         TooltipOverlayHandler.toolTipW = w;

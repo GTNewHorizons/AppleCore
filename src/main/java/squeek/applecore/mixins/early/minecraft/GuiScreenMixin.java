@@ -1,17 +1,14 @@
 package squeek.applecore.mixins.early.minecraft;
 
-import java.util.Iterator;
-import java.util.List;
-
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 
+import org.spongepowered.asm.lib.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import squeek.applecore.client.TooltipOverlayHandler;
 
@@ -19,19 +16,19 @@ import squeek.applecore.client.TooltipOverlayHandler;
 public class GuiScreenMixin {
 
     @Inject(
+            at = @At(
+                    opcode = Opcodes.PUTFIELD,
+                    ordinal = 0,
+                    remap = true,
+                    target = "Lnet/minecraft/client/gui/GuiScreen;zLevel:F",
+                    value = "FIELD"),
             method = "drawHoveringText",
-            at = @At(value = "INVOKE", target = "Ljava/util/List;size()I", shift = At.Shift.BEFORE),
-            slice = @Slice(
-                    from = @At(
-                            value = "INVOKE",
-                            target = "Lnet/minecraft/client/gui/GuiScreen;drawGradientRect(IIIIII)V",
-                            ordinal = 0)),
-            locals = LocalCapture.CAPTURE_FAILHARD)
-    private void onDrawHoveringText(List<String> textLines, int x, int y, FontRenderer font, CallbackInfo ci, int k,
-            Iterator<String> iterator, int j2, int k2, int i1, int j1, int k1, int l1, int i2) {
-        TooltipOverlayHandler.toolTipX = j2;
-        TooltipOverlayHandler.toolTipY = k2;
-        TooltipOverlayHandler.toolTipW = k;
-        TooltipOverlayHandler.toolTipH = i1;
+            remap = false)
+    private void onDrawHoveringText(CallbackInfo ci, @Local(ordinal = 3) int x, @Local(ordinal = 4) int y,
+            @Local(ordinal = 2) int w, @Local(ordinal = 5) int h) {
+        TooltipOverlayHandler.toolTipX = x;
+        TooltipOverlayHandler.toolTipY = y;
+        TooltipOverlayHandler.toolTipW = w;
+        TooltipOverlayHandler.toolTipH = h;
     }
 }

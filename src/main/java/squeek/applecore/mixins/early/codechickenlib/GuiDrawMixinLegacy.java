@@ -9,11 +9,10 @@ import codechicken.lib.gui.GuiDraw;
 import squeek.applecore.client.TooltipOverlayHandler;
 
 @Mixin(GuiDraw.class)
-public class GuiDrawMixin {
+public class GuiDrawMixinLegacy {
 
-    @Inject(method = "drawTooltipBox(IIIIIIII)V", at = @At("HEAD"), remap = false)
-    private static void onDrawTooltipBox(int x, int y, int w, int h, int bgStart, int bgEnd, int borderStart,
-            int borderEnd, CallbackInfo callbackInfo) {
+    @Inject(method = "drawTooltipBox(IIII)V", at = @At("HEAD"), remap = false)
+    private static void onDrawTooltipBoxLegacy(int x, int y, int w, int h, CallbackInfo callbackInfo) {
         TooltipOverlayHandler.toolTipX = x;
         TooltipOverlayHandler.toolTipY = y;
         TooltipOverlayHandler.toolTipW = w;

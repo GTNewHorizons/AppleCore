@@ -17,10 +17,6 @@ public class CCLLegacyHelper {
         } catch (Exception e) {
             return false;
         }
-        System.out.println(
-                "1.3.10 compareTo " + version
-                        + " = "
-                        + new ComparableVersion("1.3.10").compareTo(new ComparableVersion(version)));
         return new ComparableVersion("1.3.10").compareTo(new ComparableVersion(version)) <= 0;
     }
 

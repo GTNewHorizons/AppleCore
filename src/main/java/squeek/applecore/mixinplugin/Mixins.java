@@ -1,16 +1,15 @@
 package squeek.applecore.mixinplugin;
 
-import static squeek.applecore.mixinplugin.TargetedMod.CODECHICKEN_LIB;
-import static squeek.applecore.mixinplugin.TargetedMod.HARVESTCRAFT;
-import static squeek.applecore.mixinplugin.TargetedMod.NATURA;
-import static squeek.applecore.mixinplugin.TargetedMod.VANILLA;
+import static squeek.applecore.mixinplugin.TargetedMod.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
+import squeek.applecore.helpers.CCLLegacyHelper;
 
 public enum Mixins {
 
@@ -49,8 +48,10 @@ public enum Mixins {
     ItemRendererMixin(new Builder().addMixinClasses("minecraft.ItemRendererMixin").setSide(Side.CLIENT)
             .addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
 
+    GuiDrawMixinLegacy(new Builder().addMixinClasses("codechickenlib.GuiDrawMixinLegacy").setSide(Side.CLIENT)
+            .addTargetedMod(CODECHICKEN_LIB).setPhase(Phase.EARLY).setApplyIf(CCLLegacyHelper::useLegacyMixin)),
     GuiDrawMixin(new Builder().addMixinClasses("codechickenlib.GuiDrawMixin").setSide(Side.CLIENT)
-            .addTargetedMod(CODECHICKEN_LIB).setPhase(Phase.EARLY)),
+            .addTargetedMod(CODECHICKEN_LIB).setPhase(Phase.EARLY).setApplyIf(CCLLegacyHelper::useNewMixin)),
 
     BlockPamFruitMixin(new Builder().addMixinClasses("harvestcraft.BlockPamFruitMixin").addTargetedMod(HARVESTCRAFT)),
     BlockPamSaplingMixin(
@@ -64,6 +65,7 @@ public enum Mixins {
     private final Side side;
     public final List<TargetedMod> targetedMods;
     public final List<TargetedMod> excludedMods;
+    private Supplier<Boolean> applyIf;
 
     private static class Builder {
 
@@ -72,6 +74,7 @@ public enum Mixins {
         private Phase phase = Phase.LATE;
         private final List<TargetedMod> targetedMods = new ArrayList<>();
         private final List<TargetedMod> excludedMods = new ArrayList<>();
+        private Supplier<Boolean> applyIf = () -> true;
 
         public Builder() {}
 
@@ -99,6 +102,11 @@ public enum Mixins {
             this.excludedMods.add(mod);
             return this;
         }
+
+        public Builder setApplyIf(Supplier<Boolean> applyIf) {
+            this.applyIf = applyIf;
+            return this;
+        }
     }
 
     Mixins(Builder builder) {
@@ -107,6 +115,7 @@ public enum Mixins {
         this.targetedMods = builder.targetedMods;
         this.excludedMods = builder.excludedMods;
         this.phase = builder.phase;
+        this.applyIf = builder.applyIf;
         if (this.targetedMods.isEmpty()) {
             throw new RuntimeException("No targeted mods specified!");
         }
@@ -150,7 +159,8 @@ public enum Mixins {
     }
 
     public boolean shouldLoad(Set<String> loadedCoreMods, Set<String> loadedMods) {
-        return (shouldLoadSide() && allModsLoaded(targetedMods, loadedCoreMods, loadedMods)
+        return (shouldLoadSide() && applyIf.get()
+                && allModsLoaded(targetedMods, loadedCoreMods, loadedMods)
                 && noModsLoaded(excludedMods, loadedCoreMods, loadedMods));
     }
 

@@ -1,9 +1,6 @@
 package squeek.applecore.mixinplugin;
 
-import static squeek.applecore.mixinplugin.TargetedMod.CODECHICKEN_LIB;
-import static squeek.applecore.mixinplugin.TargetedMod.HARVESTCRAFT;
-import static squeek.applecore.mixinplugin.TargetedMod.NATURA;
-import static squeek.applecore.mixinplugin.TargetedMod.VANILLA;
+import static squeek.applecore.mixinplugin.TargetedMod.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +9,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 
 import cpw.mods.fml.relauncher.FMLLaunchHandler;
+import squeek.applecore.helpers.CCLLegacyHelper;
 
 public enum Mixins {
 

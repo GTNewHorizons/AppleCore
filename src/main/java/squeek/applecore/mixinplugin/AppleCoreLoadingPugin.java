@@ -49,12 +49,6 @@ public class AppleCoreLoadingPugin implements IFMLLoadingPlugin, IEarlyMixinLoad
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
         ModConfig.init(new File(Launch.minecraftHome, "config/" + ModInfo.MODID + ".cfg"));
-        // Manual coremod identification
-        try {
-            Class.forName("codechicken.lib.asm.ModularASMTransformer");
-            loadedCoreMods.add("codechicken.lib");
-        } catch (ClassNotFoundException ignored) {}
-
         final List<String> mixins = new ArrayList<>();
         final List<String> notLoading = new ArrayList<>();
         for (Mixins mixin : Mixins.values()) {

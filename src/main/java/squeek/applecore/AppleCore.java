@@ -34,6 +34,7 @@ public class AppleCore {
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        ModConfig.init(event.getSuggestedConfigurationFile());
         // force initialization of the singletons
         AppleCoreAccessorMutatorImpl.values();
         AppleCoreDispatcherImpl.values();

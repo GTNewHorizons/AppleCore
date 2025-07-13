@@ -1,36 +1,25 @@
 package squeek.applecore.mixinplugin;
 
-public enum TargetedMod {
+import javax.annotation.Nonnull;
 
-    //
-    // IMPORTANT: Do not make any references to any mod from this file. This file is loaded quite early on and if
-    // you refer to other mods you load them as well. The consequence is: You can't inject any previously loaded
-    // classes!
-    // Exception: Tags.java, as long as it is used for Strings only!
-    //
+import com.gtnewhorizon.gtnhmixins.builders.ITargetMod;
+import com.gtnewhorizon.gtnhmixins.builders.TargetModBuilder;
 
-    // Replace with your injected mods here, but always keep VANILLA:
-    VANILLA("Minecraft", null),
-    CODECHICKEN_LIB("CodeChickenLib", "codechicken.lib", null),
-    HARVESTCRAFT("Pam's Harvestcraft", null, "harvestcraft"),
-    NATURA("Natura", null, "Natura");
+public enum TargetedMod implements ITargetMod {
 
-    public final String modName;
-    public final String coreModClass;
-    public final String modId;
+    CODECHICKEN_LIB("codechicken.lib", null),
+    HARVESTCRAFT(null, "harvestcraft"),
+    NATURA(null, "Natura");
 
-    TargetedMod(String modName, String coreModClass) {
-        this(modName, coreModClass, null);
+    private final TargetModBuilder builder;
+
+    TargetedMod(String coreModClass, String modId) {
+        this.builder = new TargetModBuilder().setCoreModClass(coreModClass).setModId(modId);
     }
 
-    TargetedMod(String modName, String coreModClass, String modId) {
-        this.modName = modName;
-        this.coreModClass = coreModClass;
-        this.modId = modId;
-    }
-
+    @Nonnull
     @Override
-    public String toString() {
-        return "TargetedMod{modName='" + modName + "', coreModClass='" + coreModClass + "', modId='" + modId + "'}";
+    public TargetModBuilder getBuilder() {
+        return builder;
     }
 }

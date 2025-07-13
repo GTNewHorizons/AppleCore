@@ -1,177 +1,70 @@
 package squeek.applecore.mixinplugin;
 
-import static squeek.applecore.mixinplugin.TargetedMod.*;
+import javax.annotation.Nonnull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Supplier;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
+import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
 
-import cpw.mods.fml.relauncher.FMLLaunchHandler;
 import squeek.applecore.helpers.CCLLegacyHelper;
 
-public enum Mixins {
+public enum Mixins implements IMixins {
 
-    //
-    // IMPORTANT: Do not make any references to any mod from this file. This file is loaded quite early on and if
-    // you refer to other mods you load them as well. The consequence is: You can't inject any previously loaded
-    // classes!
-    // Exception: Tags.java, as long as it is used for Strings only!
-    //
-    BlockCactusMixin(
-            new Builder().addMixinClasses("minecraft.BlockCactusMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockCakeMixin(
-            new Builder().addMixinClasses("minecraft.BlockCakeMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockCocoaMixin(
-            new Builder().addMixinClasses("minecraft.BlockCocoaMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockCropsMixin(
-            new Builder().addMixinClasses("minecraft.BlockCropsMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockMushroomMixin(new Builder().addMixinClasses("minecraft.BlockMushroomMixin").addTargetedMod(VANILLA)
+    // spotless:off
+    MINECRAFT(new MixinBuilder()
+            .addCommonMixins(
+                    "minecraft.BlockCactusMixin",
+                    "minecraft.BlockCakeMixin",
+                    "minecraft.BlockCocoaMixin",
+                    "minecraft.BlockCropsMixin",
+                    "minecraft.BlockMushroomMixin",
+                    "minecraft.BlockNetherWartMixin",
+                    "minecraft.BlockReedMixin",
+                    "minecraft.BlockSaplingMixin",
+                    "minecraft.BlockStemMixin",
+                    "minecraft.EntityPlayerMixin",
+                    "minecraft.FoodStatsMixin",
+                    "minecraft.accessors.FoodStatsAccessor")
+            .addClientMixins(
+                    "minecraft.GuiScreenMixin",
+                    "minecraft.ItemRendererMixin")
             .setPhase(Phase.EARLY)),
-    BlockNetherWartMixin(new Builder().addMixinClasses("minecraft.BlockNetherWartMixin").addTargetedMod(VANILLA)
+    GuiDrawMixinLegacy(new MixinBuilder()
+            .addClientMixins("codechickenlib.GuiDrawMixinLegacy")
+            .addRequiredMod(TargetedMod.CODECHICKEN_LIB)
+            .setApplyIf(CCLLegacyHelper::useLegacyMixin)
             .setPhase(Phase.EARLY)),
-    BlockReedMixin(
-            new Builder().addMixinClasses("minecraft.BlockReedMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockSaplingMixin(
-            new Builder().addMixinClasses("minecraft.BlockSaplingMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    BlockStemMixin(
-            new Builder().addMixinClasses("minecraft.BlockStemMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    EntityPlayerMixin(
-            new Builder().addMixinClasses("minecraft.EntityPlayerMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    FoodStatsMixin(
-            new Builder().addMixinClasses("minecraft.FoodStatsMixin").addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    FoodStatsMixinAccessor(new Builder().addMixinClasses("minecraft.accessors.FoodStatsAccessor")
-            .addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    GuiScreenMixin(new Builder().addMixinClasses("minecraft.GuiScreenMixin").setSide(Side.CLIENT)
-            .addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
-    ItemRendererMixin(new Builder().addMixinClasses("minecraft.ItemRendererMixin").setSide(Side.CLIENT)
-            .addTargetedMod(VANILLA).setPhase(Phase.EARLY)),
+    GuiDrawMixin(new MixinBuilder()
+            .addClientMixins("codechickenlib.GuiDrawMixin")
+            .addRequiredMod(TargetedMod.CODECHICKEN_LIB)
+            .setApplyIf(CCLLegacyHelper::useNewMixin)
+            .setPhase(Phase.EARLY)),
+    BlockPamFruitMixin(new MixinBuilder()
+            .addCommonMixins("harvestcraft.BlockPamFruitMixin")
+            .addRequiredMod(TargetedMod.HARVESTCRAFT)
+            .setPhase(Phase.LATE)),
+    BlockPamSaplingMixin(new MixinBuilder()
+            .addCommonMixins("harvestcraft.BlockPamSaplingMixin")
+            .addRequiredMod(TargetedMod.HARVESTCRAFT)
+            .setPhase(Phase.LATE)),
+    BerryBushMixin(new MixinBuilder()
+            .addCommonMixins("natura.BerryBushMixin")
+            .addRequiredMod(TargetedMod.NATURA)
+            .setPhase(Phase.LATE)),
+    NetherBerryBushMixin(new MixinBuilder()
+            .addCommonMixins("natura.NetherBerryBushMixin")
+            .addRequiredMod(TargetedMod.NATURA)
+            .setPhase(Phase.LATE));
+    // spotless:on
 
-    GuiDrawMixinLegacy(new Builder().addMixinClasses("codechickenlib.GuiDrawMixinLegacy").setSide(Side.CLIENT)
-            .addTargetedMod(CODECHICKEN_LIB).setPhase(Phase.EARLY).setApplyIf(CCLLegacyHelper::useLegacyMixin)),
-    GuiDrawMixin(new Builder().addMixinClasses("codechickenlib.GuiDrawMixin").setSide(Side.CLIENT)
-            .addTargetedMod(CODECHICKEN_LIB).setPhase(Phase.EARLY).setApplyIf(CCLLegacyHelper::useNewMixin)),
+    private final MixinBuilder builder;
 
-    BlockPamFruitMixin(new Builder().addMixinClasses("harvestcraft.BlockPamFruitMixin").addTargetedMod(HARVESTCRAFT)),
-    BlockPamSaplingMixin(
-            new Builder().addMixinClasses("harvestcraft.BlockPamSaplingMixin").addTargetedMod(HARVESTCRAFT)),
-
-    BerryBushMixin(new Builder().addMixinClasses("natura.BerryBushMixin").addTargetedMod(NATURA)),
-    NetherBerryBushMixin(new Builder().addMixinClasses("natura.NetherBerryBushMixin").addTargetedMod(NATURA));
-
-    public final List<String> mixinClasses;
-    public final Phase phase;
-    private final Side side;
-    public final List<TargetedMod> targetedMods;
-    public final List<TargetedMod> excludedMods;
-    private Supplier<Boolean> applyIf;
-
-    private static class Builder {
-
-        private final List<String> mixinClasses = new ArrayList<>();
-        private Side side = Side.BOTH;
-        private Phase phase = Phase.LATE;
-        private final List<TargetedMod> targetedMods = new ArrayList<>();
-        private final List<TargetedMod> excludedMods = new ArrayList<>();
-        private Supplier<Boolean> applyIf = () -> true;
-
-        public Builder() {}
-
-        public Builder addMixinClasses(String... mixinClasses) {
-            this.mixinClasses.addAll(Arrays.asList(mixinClasses));
-            return this;
-        }
-
-        public Builder setPhase(Phase phase) {
-            this.phase = phase;
-            return this;
-        }
-
-        public Builder setSide(Side side) {
-            this.side = side;
-            return this;
-        }
-
-        public Builder addTargetedMod(TargetedMod mod) {
-            this.targetedMods.add(mod);
-            return this;
-        }
-
-        public Builder addExcludedMod(TargetedMod mod) {
-            this.excludedMods.add(mod);
-            return this;
-        }
-
-        public Builder setApplyIf(Supplier<Boolean> applyIf) {
-            this.applyIf = applyIf;
-            return this;
-        }
+    Mixins(MixinBuilder builder) {
+        this.builder = builder;
     }
 
-    Mixins(Builder builder) {
-        this.mixinClasses = builder.mixinClasses;
-        this.side = builder.side;
-        this.targetedMods = builder.targetedMods;
-        this.excludedMods = builder.excludedMods;
-        this.phase = builder.phase;
-        this.applyIf = builder.applyIf;
-        if (this.targetedMods.isEmpty()) {
-            throw new RuntimeException("No targeted mods specified!");
-        }
-    }
-
-    private boolean shouldLoadSide() {
-        return (side == Side.BOTH || (side == Side.SERVER && FMLLaunchHandler.side().isServer())
-                || (side == Side.CLIENT && FMLLaunchHandler.side().isClient()));
-    }
-
-    private boolean allModsLoaded(List<TargetedMod> targetedMods, Set<String> loadedCoreMods, Set<String> loadedMods) {
-        if (targetedMods.isEmpty()) return false;
-
-        for (TargetedMod target : targetedMods) {
-            if (target == TargetedMod.VANILLA) continue;
-
-            // Check coremod first
-            if (!loadedCoreMods.isEmpty() && target.coreModClass != null
-                    && !loadedCoreMods.contains(target.coreModClass))
-                return false;
-            else if (!loadedMods.isEmpty() && target.modId != null && !loadedMods.contains(target.modId)) return false;
-        }
-
-        return true;
-    }
-
-    private boolean noModsLoaded(List<TargetedMod> targetedMods, Set<String> loadedCoreMods, Set<String> loadedMods) {
-        if (targetedMods.isEmpty()) return true;
-
-        for (TargetedMod target : targetedMods) {
-            if (target == TargetedMod.VANILLA) continue;
-
-            // Check coremod first
-            if (!loadedCoreMods.isEmpty() && target.coreModClass != null
-                    && loadedCoreMods.contains(target.coreModClass))
-                return false;
-            else if (!loadedMods.isEmpty() && target.modId != null && loadedMods.contains(target.modId)) return false;
-        }
-
-        return true;
-    }
-
-    public boolean shouldLoad(Set<String> loadedCoreMods, Set<String> loadedMods) {
-        return (shouldLoadSide() && applyIf.get()
-                && allModsLoaded(targetedMods, loadedCoreMods, loadedMods)
-                && noModsLoaded(excludedMods, loadedCoreMods, loadedMods));
-    }
-
-    enum Side {
-        BOTH,
-        CLIENT,
-        SERVER
-    }
-
-    public enum Phase {
-        EARLY,
-        LATE,
+    @Nonnull
+    @Override
+    public MixinBuilder getBuilder() {
+        return builder;
     }
 }

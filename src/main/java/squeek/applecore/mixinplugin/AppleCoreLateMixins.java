@@ -1,14 +1,13 @@
 package squeek.applecore.mixinplugin;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Nonnull;
+
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
-
-import squeek.applecore.AppleCore;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
 
 @LateMixin
 public class AppleCoreLateMixins implements ILateMixinLoader {
@@ -17,20 +16,9 @@ public class AppleCoreLateMixins implements ILateMixinLoader {
         return "mixins.AppleCore.late.json";
     }
 
+    @Nonnull
     @Override
     public List<String> getMixins(Set<String> loadedMods) {
-        final List<String> mixins = new ArrayList<>();
-        final List<String> notLoading = new ArrayList<>();
-        for (Mixins mixin : Mixins.values()) {
-            if (mixin.phase == Mixins.Phase.LATE) {
-                if (mixin.shouldLoad(Collections.emptySet(), loadedMods)) {
-                    mixins.addAll(mixin.mixinClasses);
-                } else {
-                    notLoading.addAll(mixin.mixinClasses);
-                }
-            }
-        }
-        AppleCore.Log.info("Not loading the following LATE mixins: {}", notLoading.toString());
-        return mixins;
+        return IMixins.getLateMixins(Mixins.class, loadedMods);
     }
 }

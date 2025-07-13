@@ -1,12 +1,11 @@
 package squeek.applecore.mixinplugin;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
+import com.gtnewhorizon.gtnhmixins.builders.IMixins;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
@@ -43,17 +42,6 @@ public class AppleCoreLoadingPugin implements IFMLLoadingPlugin, IEarlyMixinLoad
 
     @Override
     public List<String> getMixins(Set<String> loadedCoreMods) {
-        final List<String> mixins = new ArrayList<>();
-        final List<String> notLoading = new ArrayList<>();
-        for (Mixins mixin : Mixins.values()) {
-            if (mixin.phase == Mixins.Phase.EARLY) {
-                if (mixin.shouldLoad(loadedCoreMods, Collections.emptySet())) {
-                    mixins.addAll(mixin.mixinClasses);
-                } else {
-                    notLoading.addAll(mixin.mixinClasses);
-                }
-            }
-        }
-        return mixins;
+        return IMixins.getEarlyMixins(Mixins.class, loadedCoreMods);
     }
 }

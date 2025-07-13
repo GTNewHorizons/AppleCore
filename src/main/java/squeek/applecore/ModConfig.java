@@ -1,12 +1,8 @@
 package squeek.applecore;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.regex.Pattern;
 
 import net.minecraftforge.common.config.Configuration;
-
-import squeek.applecore.mixinplugin.TargetedMod;
 
 public class ModConfig {
 
@@ -66,16 +62,6 @@ public class ModConfig {
      */
     public static final String CATEGORY_GENERAL = Configuration.CATEGORY_GENERAL;
     public static final String CATEGORY_GENERAL_COMMENT = "These config settings are for both server and client-side";
-
-    public static String[] REQUIRED_MODS;
-    public static final String[] REQUIRED_MODS_DEFAULTS = Arrays.stream(TargetedMod.values()).map(mod -> mod.modName)
-            .toArray(String[]::new);
-    public static final String REQUIRED_MODS_NAME = "required.mods";
-    public static final String REQUIRED_MODS_COMMENT = "Subset of TargetMods that are required";
-    public static final Pattern REQUIRED_MODS_VALIDATION_PATTERN = Pattern.compile(
-            String.join(
-                    "|",
-                    Arrays.stream(TargetedMod.values()).map(mod -> "^" + mod.modName + "$").toArray(String[]::new)));
 
     public static void init(File file) {
         config = new Configuration(file);
@@ -142,17 +128,6 @@ public class ModConfig {
          */
         config.getCategory(CATEGORY_GENERAL).setLanguageKey(LANG_PREFIX + CATEGORY_GENERAL)
                 .setComment(CATEGORY_GENERAL_COMMENT);
-
-        REQUIRED_MODS = config
-                .get(
-                        CATEGORY_GENERAL,
-                        REQUIRED_MODS_NAME,
-                        REQUIRED_MODS_DEFAULTS,
-                        REQUIRED_MODS_COMMENT,
-                        false,
-                        TargetedMod.values().length,
-                        REQUIRED_MODS_VALIDATION_PATTERN)
-                .setLanguageKey(LANG_PREFIX + REQUIRED_MODS_NAME).setRequiresMcRestart(true).getStringList();
 
         if (config.hasChanged()) save();
     }

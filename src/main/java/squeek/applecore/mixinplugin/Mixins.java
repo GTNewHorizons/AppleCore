@@ -5,8 +5,6 @@ import javax.annotation.Nonnull;
 import com.gtnewhorizon.gtnhmixins.builders.IMixins;
 import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
 
-import squeek.applecore.helpers.CCLLegacyHelper;
-
 public enum Mixins implements IMixins {
 
     // spotless:off
@@ -31,12 +29,12 @@ public enum Mixins implements IMixins {
     GuiDrawMixinLegacy(new MixinBuilder()
             .addClientMixins("codechickenlib.GuiDrawMixinLegacy")
             .addRequiredMod(TargetedMod.CODECHICKEN_LIB)
-            .setApplyIf(CCLLegacyHelper::useLegacyMixin)
+            .addExcludedMod(TargetedMod.CODECHICKEN_LIB_NEW_DRAWTOOLTIPBOX)
             .setPhase(Phase.EARLY)),
     GuiDrawMixin(new MixinBuilder()
             .addClientMixins("codechickenlib.GuiDrawMixin")
             .addRequiredMod(TargetedMod.CODECHICKEN_LIB)
-            .setApplyIf(CCLLegacyHelper::useNewMixin)
+            .addRequiredMod(TargetedMod.CODECHICKEN_LIB_NEW_DRAWTOOLTIPBOX)
             .setPhase(Phase.EARLY)),
     BlockPamFruitMixin(new MixinBuilder()
             .addCommonMixins("harvestcraft.BlockPamFruitMixin")

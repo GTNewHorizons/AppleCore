@@ -38,8 +38,6 @@ public class TooltipOverlayHandler {
             .findField(GuiContainer.class, "theSlot", "field_147006_u", "u");
     private static Method getStackMouseOver = null;
     private static Method isNEIHidden = null;
-    private static Field itemPanel = null;
-    private static Field bookmarkPanel = null;
     private static boolean neiLoaded = false;
     private static Class<?> foodJournalGui = null;
     private static Field foodJournalHoveredStack = null;
@@ -49,12 +47,9 @@ public class TooltipOverlayHandler {
         try {
             neiLoaded = Loader.isModLoaded("NotEnoughItems");
             if (neiLoaded) {
-                Class<?> LayoutManager = Class.forName("codechicken.nei.LayoutManager");
-                itemPanel = LayoutManager.getDeclaredField("itemPanel");
-                bookmarkPanel = LayoutManager.getDeclaredField("bookmarkPanel");
-                getStackMouseOver = Class.forName("codechicken.nei.Widget")
-                        .getDeclaredMethod("getStackMouseOver", int.class, int.class);
                 isNEIHidden = Class.forName("codechicken.nei.NEIClientConfig").getDeclaredMethod("isHidden");
+                getStackMouseOver = Class.forName("codechicken.nei.guihook.GuiContainerManager")
+                        .getDeclaredMethod("getStackMouseOver", GuiContainer.class);
             }
         } catch (Exception e) {
             AppleCore.Log.error("Unable to integrate the food values tooltip overlay with NEI: ");
@@ -87,10 +82,9 @@ public class TooltipOverlayHandler {
             EntityPlayer player = mc.thePlayer;
             GuiScreen curScreen = mc.currentScreen;
             ScaledResolution scale = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
-
             boolean isFoodJournalGui = foodJournalGui != null && foodJournalGui.isInstance(curScreen);
-            boolean isValidContainerGui = curScreen instanceof GuiContainer;
-            if (isValidContainerGui) {
+
+            if (curScreen instanceof GuiContainer guiContainer) {
                 int mouseX = Mouse.getX() * scale.getScaledWidth() / mc.displayWidth;
                 int mouseY = scale.getScaledHeight() - Mouse.getY() * scale.getScaledHeight() / mc.displayHeight;
                 ItemStack hoveredStack = null;
@@ -109,11 +103,7 @@ public class TooltipOverlayHandler {
                     if (hoveredStack == null && isNEIHidden != null
                             && !(boolean) isNEIHidden.invoke(null)
                             && getStackMouseOver != null) {
-                        hoveredStack = (ItemStack) (getStackMouseOver.invoke(itemPanel.get(null), mouseX, mouseY));
-                        if (hoveredStack == null) {
-                            hoveredStack = (ItemStack) (getStackMouseOver
-                                    .invoke(bookmarkPanel.get(null), mouseX, mouseY));
-                        }
+                        hoveredStack = (ItemStack) (getStackMouseOver.invoke(null, guiContainer));
                     }
 
                     // try FoodJournal

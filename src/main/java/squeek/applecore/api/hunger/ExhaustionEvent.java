@@ -1,6 +1,7 @@
 package squeek.applecore.api.hunger;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.common.MinecraftForge;
@@ -103,6 +104,35 @@ public abstract class ExhaustionEvent extends Event {
             boolean shouldDecreaseFoodLevel = !shouldDecreaseSaturationLevel && difficulty != EnumDifficulty.PEACEFUL;
 
             if (!shouldDecreaseFoodLevel) deltaHunger = 0;
+        }
+    }
+
+    /**
+     * Fired after post-damage mitigation calculations before applying it to health.
+     *
+     * This event is fired in {@link EntityPlayer#damageEntity} post damage mitigation before being applied to the
+     * player.<br>
+     * <br>
+     * This event is not fired if damage gets fully mitigated after armor, potion effects and absorption hearts.<br>
+     * <br>
+     * {@link #source} contains the source of the damage.<br>
+     * {@link #damage} contains the post-mitigation damage.<br>
+     * <br>
+     * This event is {@link Cancelable}.<br>
+     * If this event is canceled, it will skip exhausting the player.<br>
+     * <br>
+     * This event does not have a {@link Result}. {@link HasResult}<br>
+     */
+    @Cancelable
+    public static class ExhaustFromHurt extends ExhaustionEvent {
+
+        public DamageSource source;
+        public float damage;
+
+        public ExhaustFromHurt(EntityPlayer player, DamageSource source, float damage) {
+            super(player);
+            this.source = source;
+            this.damage = damage;
         }
     }
 }

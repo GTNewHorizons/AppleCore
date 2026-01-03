@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.FoodStats;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,10 +17,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import squeek.applecore.api.hunger.ExhaustionEvent;
 import squeek.applecore.api.hunger.HealthRegenEvent;
 import squeek.applecore.mixinplugin.ducks.EntityPlayerExt;
 import squeek.applecore.mixinplugin.ducks.FoodStatsExt;
@@ -81,5 +84,21 @@ public abstract class EntityPlayerMixin extends EntityLivingBase implements Enti
         if (!peacefulRegenEvent.isCanceled()) {
             heal(peacefulRegenEvent.deltaHealth);
         }
+    }
+
+    @Redirect(
+            method = "damageEntity",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;addExhaustion(F)V"))
+    private void redirectExhaustionFromHurt(EntityPlayer instance, float p_71020_1_,
+            @Local(name = "p_70665_1_") DamageSource source, @Local(name = "p_70665_2_") float damage) {
+
+        ExhaustionEvent.ExhaustFromHurt ExhaustFromHurtEvent = new ExhaustionEvent.ExhaustFromHurt(
+                (EntityPlayer) (Object) this,
+                source,
+                damage);
+
+        MinecraftForge.EVENT_BUS.post(ExhaustFromHurtEvent);
+
+        if (!ExhaustFromHurtEvent.isCanceled()) instance.addExhaustion(ExhaustFromHurtEvent.source.getHungerDamage());
     }
 }

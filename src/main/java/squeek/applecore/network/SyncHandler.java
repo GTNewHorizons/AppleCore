@@ -5,16 +5,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
@@ -27,9 +23,8 @@ public class SyncHandler {
     public static final SimpleNetworkWrapper channel = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MODID);
 
     public static void init() {
-        channel.registerMessage(MessageDifficultySync.class, MessageDifficultySync.class, 0, Side.CLIENT);
-        channel.registerMessage(MessageExhaustionSync.class, MessageExhaustionSync.class, 1, Side.CLIENT);
-        channel.registerMessage(MessageSaturationSync.class, MessageSaturationSync.class, 2, Side.CLIENT);
+        channel.registerMessage(MessageExhaustionSync.class, MessageExhaustionSync.class, 0, Side.CLIENT);
+        channel.registerMessage(MessageSaturationSync.class, MessageSaturationSync.class, 1, Side.CLIENT);
 
         SyncHandler syncHandler = new SyncHandler();
         FMLCommonHandler.instance().bus().register(syncHandler);
@@ -42,7 +37,6 @@ public class SyncHandler {
      */
     private static final Map<UUID, Float> lastSaturationLevels = new HashMap<UUID, Float>();
     private static final Map<UUID, Float> lastExhaustionLevels = new HashMap<UUID, Float>();
-    private EnumDifficulty lastDifficultySetting = null;
 
     @SubscribeEvent
     public void onLivingUpdateEvent(LivingUpdateEvent event) {
@@ -71,20 +65,5 @@ public class SyncHandler {
 
         lastSaturationLevels.remove(event.player.getUniqueID());
         lastExhaustionLevels.remove(event.player.getUniqueID());
-        channel.sendTo(
-                new MessageDifficultySync(event.player.worldObj.difficultySetting),
-                (EntityPlayerMP) event.player);
-    }
-
-    @SubscribeEvent
-    public void onWorldTick(WorldTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-
-        if (event.world instanceof WorldServer) {
-            if (this.lastDifficultySetting != event.world.difficultySetting) {
-                channel.sendToAll(new MessageDifficultySync(event.world.difficultySetting));
-                this.lastDifficultySetting = event.world.difficultySetting;
-            }
-        }
     }
 }

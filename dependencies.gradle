@@ -1,9 +1,9 @@
 // Add your dependencies here
 
 dependencies {
-    compileOnly("com.github.GTNewHorizons:CodeChickenCore:1.4.12:dev")
-    compileOnly("com.github.GTNewHorizons:Natura:2.8.18:dev") { transitive = false }
+    compileOnly("com.github.GTNewHorizons:CodeChickenCore:1.4.20:dev")
+    compileOnly("com.github.GTNewHorizons:Natura:2.8.24:dev") { transitive = false }
     compileOnly(deobfCurse("pams-harvestcraft-221857:2270206"))
 
-    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.8.93-GTNH:dev")
+    runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.8.143-GTNH:dev")
 }
